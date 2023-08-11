@@ -409,9 +409,6 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                 else:  # (date + pd.Timedelta(hours=23) + pd.Timedelta(hours=(recal_interval - 1) * 24) == pd.to_datetime(end_test_date):
                     data_available = pd.concat([df_train, df_test.loc[:end_test_date, :]], axis=0)
 
-                #     return forecast
-                # data_available = pd.concat([df_train, df_test.loc[:date + pd.Timedelta(hours=23) + pd.Timedelta(
-                #     hours=(recal_interval - 1) * 24), :]], axis=0)
                 # We set the real prices for current date to NaN in the dataframe of available data
                 data_copy = data_available
                 data_copy.loc[current_date:current_date + pd.Timedelta(hours=23), 'Price'] = np.NaN
@@ -438,22 +435,6 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                     xtest = np.squeeze(np.asarray(xtest))
 
                     return models, effect_matrix, xtest, Yp
-                    # #coef = model.coef.get(__key=return_coef_hour)
-                    # coef = np.array([model.models.get(0,return_coef_hour).coef_])
-                    # models = model.models
-                    # #print(coef.dtype)
-                    # #indices = model.coef.get(__key=return_coef_hour).indices
-                    # xtest = model.recalibrate_and_forecast_next_day(df=data_copy,
-                    #                                              next_day_date=date + pd.Timedelta(hours=i * 24),
-                    #                                              calibration_window=calibration_window,
-                    #                                              recal_interval=recal_interval,
-                    #                                              begin_test_date=begin_test_date_td, i=i,return_coef_hour= return_coef_hour)
-                    # #print(xtest.dtype)
-                    # coef = np.squeeze(np.asarray(coef))
-                    # xtest = np.squeeze(np.asarray(xtest))
-                    # intercept= model.intercept_
-                    # #product = np.multiply(coef,xtest)
-                    # return models,xtest
                 # Saving the current prediction
                 forecast.loc[date + pd.Timedelta(hours=i * 24), :] = Yp
                 # Saving forecast
@@ -462,7 +443,7 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
             continue
 
     end = time.time()
-    print(end - start)
+    #print(end - start)
     return forecast
 
 # evaluate_lear_in_test_dataset(path_datasets_folder='.',path_recalibration_folder='.',dataset='BE',years_test=1,

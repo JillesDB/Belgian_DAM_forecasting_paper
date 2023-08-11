@@ -34,7 +34,7 @@ def plot_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,cal
     forecast_prices_day = effect_matrix[0]
     for h in range(24):
         coef = models[h].coef_
-        number_exog_vars = len(dataframe.columns)-1
+        number_exog_vars = len(dataframe.columns)-2
         number_coefficients = 96 + 72 * number_exog_vars
         Abs_Coef_lag_prices = abs(sum(coef[:96]))
         coef_dict_day.extend([
@@ -43,8 +43,8 @@ def plot_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,cal
              "value": Abs_Coef_lag_prices}])
         for i in range(number_exog_vars):
             coef_dict_day.extend([{"hour": h,
-                                   "Abs_Coef": str(dataframe.columns.tolist()[i+1]),
-                                   "value": abs(sum(coef[96:(number_coefficients-number_exog_vars+i+1):number_exog_vars]))}])
+                                   "Abs_Coef": str(dataframe.columns.tolist()[i+2]),
+                                   "value": abs(sum(coef[(96+i):(number_coefficients-number_exog_vars+i+1):number_exog_vars]))}])
 
     #Altair plotting
     data1 = alt.Data(values=coef_dict_day)

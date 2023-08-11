@@ -10,7 +10,7 @@ cwd = Path.cwd()
 path_forecasts_folder = str(cwd) + '\Forecasts'
 
 
-def calc_mae(name_forecast,path_real_prices,begin_test_date=None,end_test_date=None):
+def calc_mae(file_forecast,path_real_prices,begin_test_date=None,end_test_date=None):
     """
 
     Parameters
@@ -27,8 +27,7 @@ def calc_mae(name_forecast,path_real_prices,begin_test_date=None,end_test_date=N
     """
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
-
-    file_path = os.path.join(path_forecasts_folder, name_forecast)
+    file_path = pd.read_csv(os.path.join(path_forecasts_folder,str(file_forecast+'.csv')))
 
     if os.path.isfile(file_path):
         forecast = pd.read_csv(file_path)
@@ -41,7 +40,7 @@ def calc_mae(name_forecast,path_real_prices,begin_test_date=None,end_test_date=N
         print('forecast path not found')
 
 
-def calc_rmae(name_forecast, path_real_prices, begin_test_date=None, end_test_date=None, path_forecast=None,m = 'W', freq='1H'):
+def calc_rmae(file_forecast, path_real_prices, begin_test_date=None, end_test_date=None, path_forecast=None,m = 'W', freq='1H'):
     """
 
     Parameters
@@ -58,18 +57,18 @@ def calc_rmae(name_forecast, path_real_prices, begin_test_date=None, end_test_da
     """
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
-    file_path = os.path.join(path_forecasts_folder, name_forecast)
+    file_path = pd.read_csv(os.path.join(path_forecasts_folder,str(file_forecast+'.csv')))
 
     if os.path.isfile(file_path):
         forecast = pd.read_csv(file_path)
         forecast = forecast.set_index('Date')
         real_prices_indexed = real_prices.loc[forecast.index].copy()
-        rMAE_forecast = np.mean(rMAE(real_prices_indexed, forecast, m=m, freq=freq))
+        rMAE_forecast = np.mean(rMAE(real_prices_indexed, forecast, m='D', freq='1H'))
         print(rMAE_forecast)
         return rMAE_forecast
     else:
         print('forecast path not found')
 
 
-calc_rmae(name_forecast='Weighted_Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1.csv', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
-calc_mae(name_forecast='Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1.csv', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
+calc_rmae(file_forecast='Weighted_Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
+calc_mae(file_forecast='Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')

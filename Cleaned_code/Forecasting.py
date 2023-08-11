@@ -64,14 +64,15 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=Non
         'check whether forecast exists already'
         if os.path.exists(path_file):
             a = pd.read_csv(path_file)
-            if a.isnull().values.any():
+            a = a.set_index('Date')
+            if a.loc[str(pd.to_datetime(begin_test_date).date())].isna().any() or a.loc[str(pd.to_datetime(end_test_date).date())].isna().any():
+                print('forecasting file ' + str(path_file))
                 a = _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                         path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), \
                                                         calibration_window=cw,
                                                         begin_test_date=str(begin_test_date) + ' 00:00',
                                                         end_test_date=str(end_test_date) + ' 23:00',
                                                         recal_interval=recalibration_window, years_test=years_test)
-
         else:
             a = _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                     path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), \
@@ -79,7 +80,6 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=Non
                                                     begin_test_date=str(begin_test_date) + ' 00:00',
                                                     end_test_date=str(end_test_date) + ' 23:00',
                                                     recal_interval=recalibration_window, years_test=years_test)
-        a = a.set_index('Date')
         list_forecasts.append(a)
     if weighed != 0:
         Weighted_Ensemble_file_name = 'Weighted_Ensemble_LEAR_forecast' + '_dat' + str(name_dataframe) \
@@ -89,6 +89,7 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=Non
 
 
         Weighted_Ensemble = pd.DataFrame(0,index=list_forecasts[0].index, columns=list_forecasts[0].columns)
+        print(Weighted_Ensemble,real_prices)
         real_prices_selection = real_prices.loc[list_forecasts[0].index].copy()
         for i in range(len(Weighted_Ensemble.index)):
             if i == 0:
@@ -106,7 +107,6 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=Non
                     #print(b)
                     Weighted_Ensemble.iloc[i, :] += b
         Weighted_Ensemble.to_csv(Weighted_Ensemble_file_path)
-        print(Weighted_Ensemble)
         return Weighted_Ensemble
 
     else:
@@ -159,6 +159,6 @@ def create_ensemble_one_day(list_forecasts,real_prices,day,weighted=0):
                     Ensemble_Forecast.loc[day] += (list_forecasts[forecast_number].iloc[i, 1:]/ len(list_forecasts))
 
 create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-                         begin_test_date='2021-01-01 00:00', end_test_date='2021-01-08 23:00', weighed=1)
+                         begin_test_date='2021-01-01 00:00', end_test_date='2021-01-31 23:00', weighed=1)
 create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-                         begin_test_date='2021-01-01 00:00', end_test_date='2021-01-08 23:00')
+                         begin_test_date='2021-01-01 00:00', end_test_date='2021-01-31 23:00')
