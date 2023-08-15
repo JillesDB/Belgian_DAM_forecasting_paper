@@ -18,9 +18,9 @@ import shap
 from statsmodels.robust import mad
 
 from sklearn.linear_model import LassoLarsIC, Lasso, LassoLars, LassoLarsCV
-from epftoolbox.data import scaling
-from epftoolbox.data import read_data
-from epftoolbox.evaluation import MAE, sMAPE, rMAE
+from Epftoolbox_original_code.data import scaling
+from Epftoolbox_original_code.data import read_data
+from Epftoolbox_original_code.evaluation import MAE, rMAE
 import datetime
 
 from sklearn.utils._testing import ignore_warnings
@@ -81,22 +81,28 @@ class LEAR(object):
         # Xtrain[:,:], self.scalerX =scaling([Xtrain[:, :-7]], 'Norm1')
         self.models = {}
         self.coef = {}
+        time_rec_lambda = 0
+        time_rec_coeff = 0
         for h in range(24):
             # Estimating lambda hyperparameter using LARS
+            start_rec_lambda = time.time()
             param_model = LassoLarsIC(criterion='aic', max_iter=2500)  # ,fit_intercept=False)#,noise_variance=0.582)
-            # #            param_model = LassoLarsCV(max_iter= 2500)
             param = param_model.fit(Xtrain, Ytrain[:, h])
             # print(param_model.intercept_)
+            time_rec_lambda += (time.time() - start_rec_lambda)
             alpha = param.alpha_  # CHANGED THIS FROM alpha = param.alpha_
             #            alpha = 0.10
 
             # Re-calibrating LEAR using standard LASSO estimation technique
+            start_rec_coeff = time.time()
             model = Lasso(max_iter=2500, alpha=alpha)  # ,fit_intercept=False)
             model.fit(Xtrain, Ytrain[:, h])
+            time_rec_coeff += (time.time() - start_rec_coeff)
             # print(model.intercept_)
 
             self.models[h] = model
             self.coef[h] = model.sparse_coef_
+        return time_rec_lambda,time_rec_coeff
 
     def predict(self, X, return_coef_hour=0):
         """Function that makes a prediction using some given inputs.
@@ -150,7 +156,7 @@ class LEAR(object):
             # Predicting test dataset and saving
             # self.predict is basically a dot product of coefficients and X (=asihn transformed Xtest data)
 
-    def recalibrate_predict(self, Xtrain, Ytrain, Xtest, i, return_coef_hour=0):
+    def recalibrate_predict(self, Xtrain, Ytrain, Xtest, i, return_coef_hour=0,timing=0):
         """Function that first recalibrates the LEAR model and then makes a prediction.
 
         The function receives the training dataset, and trains the LEAR model. Then, using
@@ -170,8 +176,9 @@ class LEAR(object):
         numpy.array
             An array containing the predictions in the test dataset.
         """
+        time_pred=0
         if i == 0:
-            self.recalibrate(Xtrain=Xtrain, Ytrain=Ytrain)
+            time_rec_lambda, time_rec_coeff = self.recalibrate(Xtrain=Xtrain, Ytrain=Ytrain)
         if len(Xtest) == 0:
             print('xtest is empty')
             return
@@ -180,8 +187,10 @@ class LEAR(object):
             effect_matrix, xtest = self.predict(X=Xtest, return_coef_hour=return_coef_hour)
             return effect_matrix, xtest
         else:
+            start_pred = time.time()
             Yp = self.predict(X=Xtest, return_coef_hour=return_coef_hour)
-            return Yp
+            time_pred = time.time() - start_pred
+            return Yp, [time_rec_lambda,time_rec_coeff,time_pred]
 
     def _build_and_split_XYs(self, df_train, df_test=None, date_test=None):
 
@@ -325,7 +334,7 @@ class LEAR(object):
         return Xtrain, Ytrain, Xtest
 
     def recalibrate_and_forecast_next_day(self, df, calibration_window, next_day_date, begin_test_date,
-                                          recal_interval=1, i=0, return_coef_hour=0):
+                                          recal_interval=1, i=0, return_coef_hour=0,timing = 0):
         begin_test_date_dt = pd.to_datetime(begin_test_date)
         # We define the new training dataset and test datasets
         df_train = df.loc[:next_day_date - pd.Timedelta(hours=1)]
@@ -353,16 +362,17 @@ class LEAR(object):
                                                             return_coef_hour=return_coef_hour)
             return effect_matrix, xtest
         else:
-            Yp = self.recalibrate_predict(Xtrain=Xtrain, Ytrain=Ytrain, Xtest=Xtest, i=i,
-                                          return_coef_hour=return_coef_hour)
-            return Yp
+            Yp, [time_rec_lambda,time_rec_coeff,time_pred] = self.recalibrate_predict(Xtrain=Xtrain, Ytrain=Ytrain, Xtest=Xtest, i=i,
+                                          return_coef_hour=return_coef_hour,timing=timing)
+            return Yp, [time_rec_lambda,time_rec_coeff,time_pred]
 
 
 def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../../epftoolbox/models', 'datasets'),
                                   path_recalibration_folder=os.path.join('../../../../epftoolbox/models',
                                                                          'experimental_files'),
                                   dataset='PJM', years_test=2, calibration_window=364 * 3,
-                                  begin_test_date=None, end_test_date=None, recal_interval=1, return_coef_hour=0):
+                                  begin_test_date=None, end_test_date=None, recal_interval=1, return_coef_hour=0,
+                                  timing=0):
     start = time.time()
     # Checking if provided directory for recalibration exists and if not create it
     if not os.path.exists(path_recalibration_folder):
@@ -390,6 +400,9 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
     # The forecaster each time makes a forecast for all dates in one RW
     # if the forecast has already been made, it shouldn't be made again
     # and so the forecaster should move on until having reached the last date.
+    timing_dataframe = pd.DataFrame(0, index=forecast_dates, columns=['time_rec_lambda ' + str(calibration_window),
+                                                                      'time_rec_coeff ' + str(calibration_window),
+                                                                      'time_pred ' + str(calibration_window)])
     for date in forecast_dates:
         if pd.isna(forecast.loc[date, 'h3']):
             for i in range(recal_interval):
@@ -415,13 +428,11 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
 
                 # Recalibrating the model with the most up-to-date available data and making a prediction
                 # for the next day
-                start2 = time.time()
-                Yp = model.recalibrate_and_forecast_next_day(df=data_copy,
+                Yp,[time_rec_lambda,time_rec_coeff,time_pred] = model.recalibrate_and_forecast_next_day(df=data_copy,
                                                              next_day_date=date + pd.Timedelta(hours=i * 24),
                                                              calibration_window=calibration_window,
                                                              recal_interval=recal_interval,
-                                                             begin_test_date=begin_test_date_td, i=i)
-                print(time.time() - start2)
+                                                             begin_test_date=begin_test_date_td, i=i,timing=timing)
                 if return_coef_hour == 1:
                     effect_matrix, xtest = model.recalibrate_and_forecast_next_day(df=data_copy,
                                                                                    next_day_date=date + pd.Timedelta(
@@ -439,12 +450,16 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                 forecast.loc[date + pd.Timedelta(hours=i * 24), :] = Yp
                 # Saving forecast
                 forecast.to_csv(forecast_file_path)
+                if timing:
+                    timing_dataframe.loc[date] = time_rec_lambda,time_rec_coeff,time_pred
+                    #timing_dataframe.loc[date,1] =time_pred
+
         else:
             continue
-
-    end = time.time()
-    #print(end - start)
-    return forecast
+    if timing:
+        return timing_dataframe
+    else:
+        return forecast
 
 # evaluate_lear_in_test_dataset(path_datasets_folder='.',path_recalibration_folder='.',dataset='BE',years_test=1,
 #                           calibration_window=56,begin_test_date=None,end_test_date=None)

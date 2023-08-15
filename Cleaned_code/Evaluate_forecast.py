@@ -1,11 +1,10 @@
-from Epftoolbox_original_code import _lear
-from Epftoolbox_original_code._mae import MAE
-from Epftoolbox_original_code._rmae import rMAE
+from Epftoolbox_original_code.evaluation._mae import MAE
+from Epftoolbox_original_code.evaluation._rmae import rMAE
 import numpy as np
 import pandas as pd
 import os
 from pathlib import Path
-import time
+
 cwd = Path.cwd()
 path_forecasts_folder = str(cwd) + '\Forecasts'
 
