@@ -13,8 +13,6 @@ import time
 import sklearn.base
 import scipy
 from scipy.sparse import csr_matrix, find
-
-import shap
 from statsmodels.robust import mad
 
 from sklearn.linear_model import LassoLarsIC, Lasso, LassoLars, LassoLarsCV
@@ -132,9 +130,9 @@ class LEAR(object):
             Yp2 = np.zeros(24)
             for i in range(16):
                 x_copy = X.copy()
-                if i == 0 or i == 15:
-                    print('0')
-                elif i == 14:
+                #if i == 0 or i == 15:
+                    #print('0')
+                if i == 14:
                     x_copy[0, :] = 0
                 elif i == 13:
                     x_copy[0, :96] = 0
@@ -412,8 +410,6 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                 current_date = date + pd.Timedelta(hours=(i) * 24)
                 # current date shouldn't run further than the end_test_date, so then the code should finish.
                 if current_date > pd.to_datetime(end_test_date):
-                    end = time.time()
-                    print(end - start)
                     return forecast
                 if date + pd.Timedelta(hours=23) + pd.Timedelta(hours=(recal_interval - 1) * 24) < pd.to_datetime(
                         end_test_date):
@@ -444,7 +440,6 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                                                                                    return_coef_hour=return_coef_hour)
                     models = model.models
                     xtest = np.squeeze(np.asarray(xtest))
-
                     return models, effect_matrix, xtest, Yp
                 # Saving the current prediction
                 forecast.loc[date + pd.Timedelta(hours=i * 24), :] = Yp

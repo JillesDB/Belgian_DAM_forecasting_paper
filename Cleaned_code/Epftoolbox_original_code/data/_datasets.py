@@ -144,8 +144,8 @@ def read_data(path, dataset='PJM', years_test=2, begin_test_date=None, end_test_
     
     else:
         try:
-            begin_test_date = pd.to_datetime(begin_test_date, dayfirst=True)
-            end_test_date = pd.to_datetime(end_test_date, dayfirst=True)
+            begin_test_date = pd.to_datetime(begin_test_date, format='%Y-%m-%d %H:%M')
+            end_test_date = pd.to_datetime(end_test_date, format='%Y-%m-%d %H:%M')
         except ValueError:
             print("Provided values for dates are not valid")
 

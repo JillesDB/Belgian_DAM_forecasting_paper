@@ -22,7 +22,7 @@ def plot_effect_bar_chart(name_dataframe, path_real_prices, day_to_plot,calibrat
 
     """
     path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
-    path_forecasts_folder = str(Path.cwd().parent) + '\Forecasts'
+    path_forecasts_folder = str(Path.cwd().parent) + '\Forecasts_for_plots'
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
     real_prices_day = real_prices.loc[day_to_plot]

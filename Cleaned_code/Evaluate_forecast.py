@@ -14,11 +14,10 @@ def calc_mae(file_forecast,path_real_prices,begin_test_date=None,end_test_date=N
 
     Parameters
     ----------
-    name_dateframe: the name of your dataframe, which should be in the Forecasts directory
+    file_forecast: the name of your dataframe, which should be in the Forecasts directory
     path_real_prices should be in the form r'your_path'
     begin_test_date
     end_test_date
-    path_recalibration_folder
 
     Returns
     -------
@@ -26,14 +25,13 @@ def calc_mae(file_forecast,path_real_prices,begin_test_date=None,end_test_date=N
     """
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
-    file_path = pd.read_csv(os.path.join(path_forecasts_folder,str(file_forecast+'.csv')))
-
+    file_path = (os.path.join(path_forecasts_folder,str(file_forecast+'.csv')))
     if os.path.isfile(file_path):
         forecast = pd.read_csv(file_path)
         forecast = forecast.set_index('Date')
         real_prices_indexed = real_prices.loc[forecast.index].copy()
         MAE_forecast = np.mean(MAE(real_prices_indexed, forecast))
-        print(MAE_forecast)
+        print('The MAE for this forecast is '+ str(MAE_forecast))
         return MAE_forecast
     else:
         print('forecast path not found')
@@ -56,14 +54,13 @@ def calc_rmae(file_forecast, path_real_prices, begin_test_date=None, end_test_da
     """
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
-    file_path = pd.read_csv(os.path.join(path_forecasts_folder,str(file_forecast+'.csv')))
-
+    file_path = os.path.join(path_forecasts_folder,str(file_forecast+'.csv'))
     if os.path.isfile(file_path):
         forecast = pd.read_csv(file_path)
         forecast = forecast.set_index('Date')
         real_prices_indexed = real_prices.loc[forecast.index].copy()
         rMAE_forecast = np.mean(rMAE(real_prices_indexed, forecast, m='D', freq='1H'))
-        print(rMAE_forecast)
+        print('The rMAE for this forecast is '+ str(rMAE_forecast))
         return rMAE_forecast
     else:
         print('forecast path not found')

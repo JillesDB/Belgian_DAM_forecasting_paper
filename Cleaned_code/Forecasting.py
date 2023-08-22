@@ -3,28 +3,27 @@ import pandas as pd
 import os
 from evaluation import MAE
 from pathlib import Path
+import time
 
 cwd = Path.cwd()
-def create_single_forecast(name_dataframe,calibration_window=56,begin_test_date=None,end_test_date=None,recalibration_window=1,years_test=0):
+def create_single_forecast(name_dataframe,calibration_window=56,begin_test_date=None,end_test_date=None,recalibration_window=1):
     """ 1) The Dataframes:
      The dataset folder should contain the dataset. The folder should be specified in the Dataframes folder
      The dataset should be a csv file with a pandas dataframe, with the 'Date' column as index. The 'Date' index column should specify the date as 'YYYY-MM-DD HH:MM'
      Similarly, in the path recalibration folder, where the dataframe with forecasted prices will be stored, should also be specified as r'C:\path_to_store_the_forecast'
-     Begin date:    Should be specified as DD/MM/YYYY 00:00 (00:00 referring to the values for the first hour of day,
-                    from 00:00-01:00).
+     Begin date:    Parameter to determine the begin date for test period. It should be a string with format YYYY-mm-dd
 
-     The end date: Optional parameter to select the test dataset. Used in combination with ' +
-                         'begin_test_date. If either of them is not provided, test dataset is built ' +
-                         'using the years_test parameter. It should either be  a string with the ' +
-                         ' following format d/m/Y H:M"""
+     The end date:  Parameter to determine the end date for test period. It should be a string with format YYYY-mm-dd
+    """
     path_datasets_folder = "r\'" + str(cwd)+'\Datasets' + "\'"
     path_forecasts_folder = "r\'" + str(cwd)+'\Forecasts' + "\'"
     _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
-                                        path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), years_test=years_test, \
-                                        calibration_window=calibration_window, begin_test_date=str(begin_test_date), end_test_date=str(end_test_date), recal_interval=recalibration_window)
+                                        path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), \
+                                        calibration_window=calibration_window, begin_test_date=str(begin_test_date) + ' 00:00', end_test_date=str(end_test_date) + ' 23:00', recal_interval=recalibration_window)
 
-def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=None,end_test_date=None,recalibration_window=1,
-                             set_cws=frozenset([56,84,112,714,721,728]),weighed=0,years_test=0):
+def create_ensemble_forecast(name_dataframe,path_real_prices,path_datasets_folder,
+                             begin_test_date=None,end_test_date=None,recalibration_window=1,
+                             set_cws=frozenset([56,84,112,714,721,728]),weighed=0,regular=0,return_time=0):
     """
 
 
@@ -39,8 +38,8 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=Non
     a pandas dataframe with at least the following two colums: the first column, called 'Date',should have the date
     in the format of 'YYYY-MM-DD HH:MM'. The second column should contain the prices.
     set_cws should contain a set {} with all calibration windows that will make up the ensemble/weighted ensemble
-    weighed should be =1 for a weighed ensemble
-    years_test can be used as an alternative to begin/end_test_date.
+    weighed should be =1 to generate the weighed ensemble
+    regular should be =1 to generate the non-weighed ensemble
     the weights for the weighted ensemble are each time define by the performance of each of the predictions
     in the last 24 hours
 
@@ -55,10 +54,10 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=Non
     list_forecasts = []
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
-    path_datasets_folder = str(cwd)+'\Datasets'
     path_forecasts_folder = str(cwd)+'\Forecasts'
+    timing = dict()
     for cw in set_cws:
-        name_csv_file = 'LEAR_forecast' + '_dat' + str(name_dataframe) + '_YT' + str(years_test) + \
+        name_csv_file = 'LEAR_forecast' + '_dataframe_' + str(name_dataframe) + \
                          '_CW' + str(cw) + '_RW' + str(recalibration_window) + '.csv'
         path_file = os.path.join(path_forecasts_folder,name_csv_file)
         'check whether forecast exists already'
@@ -67,29 +66,39 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=Non
             a = a.set_index('Date')
             if a.loc[str(pd.to_datetime(begin_test_date).date())].isna().any() or a.loc[str(pd.to_datetime(end_test_date).date())].isna().any():
                 print('forecasting file ' + str(path_file))
+                start1 = time.time()
                 a = _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                         path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), \
                                                         calibration_window=cw,
                                                         begin_test_date=str(begin_test_date) + ' 00:00',
                                                         end_test_date=str(end_test_date) + ' 23:00',
-                                                        recal_interval=recalibration_window, years_test=years_test)
+                                                        recal_interval=recalibration_window)
+                # print('time to forecast dataframe ' + str(name_dataframe) + ' CW ' + str(cw)
+                #       + ' from ' + str(begin_test_date) + ' until ' + str(end_test_date) + ' took ' + str(
+                #     time.time() - start1))
+                timing['Time CW '+str(cw)] = time.time() - start1
         else:
+            start2 = time.time()
             a = _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                     path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), \
                                                     calibration_window=cw,
                                                     begin_test_date=str(begin_test_date) + ' 00:00',
                                                     end_test_date=str(end_test_date) + ' 23:00',
-                                                    recal_interval=recalibration_window, years_test=years_test)
+                                                    recal_interval=recalibration_window)
+            # print('time to forecast dataframe ' + str(name_dataframe)+' CW ' + str(cw)
+            #       +' from '+ str(begin_test_date) + ' until ' + str(end_test_date) + ' took ' + str(time.time() - start2))
+            timing['Time CW ' + str(cw)] = time.time() - start2
+
         list_forecasts.append(a)
-    if weighed != 0:
+    if weighed == 1:
         Weighted_Ensemble_file_name = 'Weighted_Ensemble_LEAR_forecast' + '_dat' + str(name_dataframe) \
-                                      + '_YT' + str(years_test) + '_RW' + str(recalibration_window) + '.csv'
+                                       + '_RW' + str(recalibration_window) + '.csv'
 
         Weighted_Ensemble_file_path = os.path.join(path_forecasts_folder,Weighted_Ensemble_file_name)
 
 
         Weighted_Ensemble = pd.DataFrame(0,index=list_forecasts[0].index, columns=list_forecasts[0].columns)
-        print(Weighted_Ensemble,real_prices)
+        #print(Weighted_Ensemble,real_prices)
         real_prices_selection = real_prices.loc[list_forecasts[0].index].copy()
         for i in range(len(Weighted_Ensemble.index)):
             if i == 0:
@@ -107,10 +116,8 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=Non
                     #print(b)
                     Weighted_Ensemble.iloc[i, :] += b
         Weighted_Ensemble.to_csv(Weighted_Ensemble_file_path)
-        return Weighted_Ensemble
-
-    else:
-        Ensemble_file_name = 'Ensemble_LEAR_forecast' + '_dat' + str(name_dataframe) + '_YT' + str(years_test) + \
+    if regular ==1:
+        Ensemble_file_name = 'Ensemble_LEAR_forecast' + '_dat' + str(name_dataframe) + '_YT' + \
                          '_RW' + str(recalibration_window) + '.csv'
 
         Ensemble_file_path = os.path.join(path_forecasts_folder,Ensemble_file_name)
@@ -121,9 +128,12 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,begin_test_date=Non
                 for i in Ensemble.index:
                     Ensemble.loc[i, j] += (list_forecasts[forecast_number].loc[i, j]) / len(list_forecasts)
         Ensemble.to_csv(Ensemble_file_path)
-        return Ensemble
+    if return_time:
+        timing['Ensemble/Weighged Ensemble'] = sum(timing.values())
+        return timing
 
-def create_ensemble_one_day(list_forecasts,real_prices,day,weighted=0):
+
+def create_ensemble_one_day(list_forecasts,real_prices,day,weighted=0,regular=0):
     """
 
     Parameters
@@ -151,14 +161,15 @@ def create_ensemble_one_day(list_forecasts,real_prices,day,weighted=0):
 
         return Weighted_Ensemble_Forecast
 
-    else:
+
+    if regular == 1:
 
         Ensemble_Forecast = pd.DataFrame(0,columns=real_prices.columns,index=day)
         for forecast_number in range(len(list_forecasts)):
 
                     Ensemble_Forecast.loc[day] += (list_forecasts[forecast_number].iloc[i, 1:]/ len(list_forecasts))
 
-create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-                         begin_test_date='2021-01-01 00:00', end_test_date='2021-01-31 23:00', weighed=1)
-create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-                         begin_test_date='2021-01-01 00:00', end_test_date='2021-01-31 23:00')
+# create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
+#                          begin_test_date='2021-01-01 00:00', end_test_date='2021-01-31 23:00', weighed=1)
+# create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
+#                          begin_test_date='2021-01-01 00:00', end_test_date='2021-01-31 23:00')

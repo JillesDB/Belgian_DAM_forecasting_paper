@@ -1,6 +1,7 @@
 from Epftoolbox_original_code import _lear
 import pandas as pd
 import os
+import time
 from evaluation import MAE
 from pathlib import Path
 
@@ -35,14 +36,16 @@ def time_forecast(name_dataframe,path_real_prices=None,begin_test_date=None,end_
     """
 
     timing_forecasts = pd.DataFrame()
-    path_datasets_folder = str(cwd)+'\Datasets'
-    path_forecasts_folder = str(cwd)+'\Forecasts'
+    path_datasets_folder = str(cwd)+'\Datasets\Dataframes_one_ex_var'
+    path_forecasts_folder = str(cwd)+'\Forecasts_for_plots'
     for cw in set_cws:
-        name_csv_file = 'LEAR_forecast' + 'timing' + str(name_dataframe) + '_YT' + str(years_test) + \
+        timing_forecasts = pd.DataFrame()
+        name_csv_file = 'LEAR_forecast_timing_dataframe_' + str(name_dataframe) + '_YT' + str(years_test) + \
                          '_CW' + str(cw) + '_RW' + str(recalibration_window) + '.csv'
         path_file = os.path.join(path_forecasts_folder,name_csv_file)
         'check whether forecast exists already'
         print('forecasting file ' + str(path_file))
+        start = time.time()
         a = _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                         path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), \
                                                         calibration_window=cw,
@@ -51,9 +54,14 @@ def time_forecast(name_dataframe,path_real_prices=None,begin_test_date=None,end_
                                                         recal_interval=recalibration_window, years_test=years_test,
                                                         timing=1)
         timing_forecasts = pd.concat([timing_forecasts,a],axis=1)
-    timing_forecasts.loc['average computation time'] = timing_forecasts.mean()
-    return timing_forecasts.loc['average computation time']
+        total_time = time.time() - start
+        print('Total time was '+str(total_time)+ ' sec for '+str(len(timing_forecasts.index))+
+              ' predictions with dataframe '+ str(name_dataframe)+'_CW_'+str(cw)+'_RW_'+str(recalibration_window))
+        timing_forecasts.loc['average computation time for dataframe '
+          + str(name_dataframe)+'_CW_'+str(cw)] = timing_forecasts.mean()
+        print(timing_forecasts.loc['average computation time for dataframe '+ str(name_dataframe)+'_CW_'+str(cw)])
 
-b = time_forecast(name_dataframe='Example_dataframe',begin_test_date='01-01-2021 00:00',
-              end_test_date='31/03/2021 23:00', set_cws={56,84,728})
-print(b)
+    #return timing_forecasts.loc['average computation time']
+
+#time_forecast(name_dataframe='Example_dataframe',begin_test_date='2021-01-01',
+#              end_test_date='2021-01-08', set_cws={56})
