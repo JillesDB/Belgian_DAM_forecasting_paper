@@ -157,7 +157,7 @@ def read_data(path, dataset='PJM', years_test=2, begin_test_date=None, end_test_
             else:
                 raise Exception("End date for test dataset should be at 0h or 23h") 
 
-        print('Test datasets: {} - {}'.format(begin_test_date, end_test_date))
+        print('Test datasets for dataframe {}: {} - {}'.format(dataset,begin_test_date, end_test_date))
         df_train = data.loc[:begin_test_date - pd.Timedelta(hours=1), :]
         df_test = data.loc[begin_test_date:end_test_date, :]
 

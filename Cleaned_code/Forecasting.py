@@ -71,8 +71,7 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,path_datasets_folde
                                                         path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), \
                                                         calibration_window=cw,
                                                         begin_test_date=str(begin_test_date) + ' 00:00',
-                                                        end_test_date=str(end_test_date) + ' 23:00',
-                                                        recal_interval=recalibration_window)
+                                                        end_test_date=str(end_test_date) + ' 23:00',recalibration_window=recalibration_window,timing=0)
                 # print('time to forecast dataframe ' + str(name_dataframe) + ' CW ' + str(cw)
                 #       + ' from ' + str(begin_test_date) + ' until ' + str(end_test_date) + ' took ' + str(
                 #     time.time() - start1))
@@ -84,22 +83,23 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,path_datasets_folde
                                                     calibration_window=cw,
                                                     begin_test_date=str(begin_test_date) + ' 00:00',
                                                     end_test_date=str(end_test_date) + ' 23:00',
-                                                    recal_interval=recalibration_window)
+                                                    recalibration_window=recalibration_window,timing=0)
             # print('time to forecast dataframe ' + str(name_dataframe)+' CW ' + str(cw)
             #       +' from '+ str(begin_test_date) + ' until ' + str(end_test_date) + ' took ' + str(time.time() - start2))
             timing['Time CW ' + str(cw)] = time.time() - start2
-
+            print(a)
         list_forecasts.append(a)
+    print(timing)
     if weighed == 1:
-        Weighted_Ensemble_file_name = 'Weighted_Ensemble_LEAR_forecast' + '_dat' + str(name_dataframe) \
+        Weighted_Ensemble_file_name = 'Weighted_Ensemble_LEAR_forecast' + '_dataframe_' + str(name_dataframe) \
                                        + '_RW' + str(recalibration_window) + '.csv'
 
         Weighted_Ensemble_file_path = os.path.join(path_forecasts_folder,Weighted_Ensemble_file_name)
 
 
         Weighted_Ensemble = pd.DataFrame(0,index=list_forecasts[0].index, columns=list_forecasts[0].columns)
-        #print(Weighted_Ensemble,real_prices)
-        real_prices_selection = real_prices.loc[list_forecasts[0].index].copy()
+        print(list_forecasts[0],real_prices)
+        real_prices_selection = real_prices.loc[list_forecasts[0].index,:].copy()
         for i in range(len(Weighted_Ensemble.index)):
             if i == 0:
                 for forecast_number in range(len(list_forecasts)):
@@ -117,7 +117,7 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,path_datasets_folde
                     Weighted_Ensemble.iloc[i, :] += b
         Weighted_Ensemble.to_csv(Weighted_Ensemble_file_path)
     if regular ==1:
-        Ensemble_file_name = 'Ensemble_LEAR_forecast' + '_dat' + str(name_dataframe) + '_YT' + \
+        Ensemble_file_name = 'Ensemble_LEAR_forecast' + '_dataframe_' + str(name_dataframe)+ \
                          '_RW' + str(recalibration_window) + '.csv'
 
         Ensemble_file_path = os.path.join(path_forecasts_folder,Ensemble_file_name)

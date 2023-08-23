@@ -66,5 +66,5 @@ def calc_rmae(file_forecast, path_real_prices, begin_test_date=None, end_test_da
         print('forecast path not found')
 
 
-calc_rmae(file_forecast='Weighted_Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
-calc_mae(file_forecast='Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
+#calc_rmae(file_forecast='Weighted_Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
+#calc_mae(file_forecast='Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')

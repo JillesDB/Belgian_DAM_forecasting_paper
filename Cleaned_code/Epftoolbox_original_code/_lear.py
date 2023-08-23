@@ -332,7 +332,7 @@ class LEAR(object):
         return Xtrain, Ytrain, Xtest
 
     def recalibrate_and_forecast_next_day(self, df, calibration_window, next_day_date, begin_test_date,
-                                          recal_interval=1, i=0, return_coef_hour=0,timing = 0):
+                                          recalibration_window=1, i=0, return_coef_hour=0,timing = 0):
         begin_test_date_dt = pd.to_datetime(begin_test_date)
         # We define the new training dataset and test datasets
         df_train = df.loc[:next_day_date - pd.Timedelta(hours=1)]
@@ -345,15 +345,15 @@ class LEAR(object):
         # We define the test dataset as the next day (they day of interest) plus the last two weeks
         # in order to be able to build the necessary input features.
         df_test = df.loc[next_day_date - pd.Timedelta(weeks=2):, :]
-        # next_day_date + pd.Timedelta(hours = (recal_interval-1)*24):
+        # next_day_date + pd.Timedelta(hours = (recalibration_window-1)*24):
         # Generating X,Y pairs for predicting prices
-        if recal_interval == 0:
+        if recalibration_window == 0:
             Xtrain, Ytrain, Xtest, = self._build_and_split_XYs(
                 df_train=df_train0, df_test=df_test, date_test=next_day_date)
         else:
             Xtrain, Ytrain, Xtest = self._build_and_split_XYs(
                 df_train=df_train, df_test=df_test, date_test=next_day_date)
-            # .iloc[:-(recal_interval- 1) * 24, :]
+            # .iloc[:-(recalibration_window- 1) * 24, :]
         # Recalibrate the LEAR model and extract the prediction.
         if return_coef_hour == 1:
             effect_matrix, xtest = self.recalibrate_predict(Xtrain=Xtrain, Ytrain=Ytrain, Xtest=Xtest, i=i,
@@ -369,7 +369,7 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                                   path_recalibration_folder=os.path.join('../../../../epftoolbox/models',
                                                                          'experimental_files'),
                                   dataset='PJM', years_test=2, calibration_window=364 * 3,
-                                  begin_test_date=None, end_test_date=None, recal_interval=1, return_coef_hour=0,
+                                  begin_test_date=None, end_test_date=None, recalibration_window=1, return_coef_hour=0,
                                   timing=0):
     start = time.time()
     # Checking if provided directory for recalibration exists and if not create it
@@ -381,8 +381,8 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                                   begin_test_date=begin_test_date, end_test_date=end_test_date)
 
     # Defining unique name to save the forecast
-    forecast_file_name = 'LEAR_forecast' + '_dat' + str(dataset) + '_YT' + str(years_test) + \
-                         '_CW' + str(calibration_window) + '_RW' + str(recal_interval) + '.csv'
+    forecast_file_name = 'LEAR_forecast' + '_dataframe_' + str(dataset) + \
+                         '_CW' + str(calibration_window) + '_RW' + str(recalibration_window) + '.csv'
 
     forecast_file_path = os.path.join(path_recalibration_folder, forecast_file_name)
     # Defining empty forecast array and the real values to be predicted in a more friendly format
@@ -403,7 +403,7 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                                                                       'time_pred ' + str(calibration_window)])
     for date in forecast_dates:
         if pd.isna(forecast.loc[date, 'h3']):
-            for i in range(recal_interval):
+            for i in range(recalibration_window):
 
                 # For simulation purposes, we assume that the available data is
                 # the data up to current date where the prices of current date are not known
@@ -411,11 +411,11 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                 # current date shouldn't run further than the end_test_date, so then the code should finish.
                 if current_date > pd.to_datetime(end_test_date):
                     return forecast
-                if date + pd.Timedelta(hours=23) + pd.Timedelta(hours=(recal_interval - 1) * 24) < pd.to_datetime(
+                if date + pd.Timedelta(hours=23) + pd.Timedelta(hours=(recalibration_window - 1) * 24) < pd.to_datetime(
                         end_test_date):
                     data_available = pd.concat([df_train, df_test.loc[:date + pd.Timedelta(hours=23) + pd.Timedelta(
-                        hours=(recal_interval - 1) * 24), :]], axis=0)
-                else:  # (date + pd.Timedelta(hours=23) + pd.Timedelta(hours=(recal_interval - 1) * 24) == pd.to_datetime(end_test_date):
+                        hours=(recalibration_window - 1) * 24), :]], axis=0)
+                else:  # (date + pd.Timedelta(hours=23) + pd.Timedelta(hours=(recalibration_window - 1) * 24) == pd.to_datetime(end_test_date):
                     data_available = pd.concat([df_train, df_test.loc[:end_test_date, :]], axis=0)
 
                 # We set the real prices for current date to NaN in the dataframe of available data
@@ -427,14 +427,14 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                 Yp,[time_rec_lambda,time_rec_coeff,time_pred] = model.recalibrate_and_forecast_next_day(df=data_copy,
                                                              next_day_date=date + pd.Timedelta(hours=i * 24),
                                                              calibration_window=calibration_window,
-                                                             recal_interval=recal_interval,
+                                                             recalibration_window=recalibration_window,
                                                              begin_test_date=begin_test_date_td, i=i,timing=timing)
                 if return_coef_hour == 1:
                     effect_matrix, xtest = model.recalibrate_and_forecast_next_day(df=data_copy,
                                                                                    next_day_date=date + pd.Timedelta(
                                                                                        hours=i * 24),
                                                                                    calibration_window=calibration_window,
-                                                                                   recal_interval=recal_interval,
+                                                                                   recalibration_window=recalibration_window,
                                                                                    begin_test_date=begin_test_date_td,
                                                                                    i=i,
                                                                                    return_coef_hour=return_coef_hour)
@@ -452,7 +452,7 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
         else:
             continue
     if timing:
-        return timing_dataframe
+        return forecast,timing_dataframe
     else:
         return forecast
 
