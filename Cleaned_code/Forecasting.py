@@ -23,7 +23,7 @@ def create_single_forecast(name_dataframe,calibration_window=56,begin_test_date=
 
 def create_ensemble_forecast(name_dataframe,path_real_prices,path_datasets_folder,
                              begin_test_date=None,end_test_date=None,recalibration_window=1,
-                             set_cws=frozenset([56,84,112,714,721,728]),weighed=0,regular=0,return_time=0):
+                             set_cws=tuple([56,84,112,714,721,728]),weighed=0,regular=0,return_time=0):
     """
 
 
@@ -64,8 +64,8 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,path_datasets_folde
         if os.path.exists(path_file):
             a = pd.read_csv(path_file)
             a = a.set_index('Date')
-            if a.loc[str(pd.to_datetime(begin_test_date).date())].isna().any() or a.loc[str(pd.to_datetime(end_test_date).date())].isna().any():
-                print('forecasting file ' + str(path_file))
+            if (str(pd.to_datetime(begin_test_date).date()) not in a.index or str(pd.to_datetime(end_test_date).date()) not in a.index) or (a.loc[str(pd.to_datetime(begin_test_date).date())].isna().any() or a.loc[str(pd.to_datetime(end_test_date).date())].isna().any()):
+                print('forecasting file ' + str(path_file)+'with CW ' + str(cw))
                 start1 = time.time()
                 a = _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                         path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), \
@@ -98,8 +98,7 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,path_datasets_folde
 
 
         Weighted_Ensemble = pd.DataFrame(0,index=list_forecasts[0].index, columns=list_forecasts[0].columns)
-        print(list_forecasts[0],real_prices)
-        real_prices_selection = real_prices.loc[list_forecasts[0].index,:].copy()
+        real_prices_selection = real_prices.loc[list_forecasts[0].index].copy()
         for i in range(len(Weighted_Ensemble.index)):
             if i == 0:
                 for forecast_number in range(len(list_forecasts)):
@@ -117,7 +116,7 @@ def create_ensemble_forecast(name_dataframe,path_real_prices,path_datasets_folde
                     Weighted_Ensemble.iloc[i, :] += b
         Weighted_Ensemble.to_csv(Weighted_Ensemble_file_path)
     if regular ==1:
-        Ensemble_file_name = 'Ensemble_LEAR_forecast' + '_dataframe_' + str(name_dataframe)+ \
+        Ensemble_file_name = 'Ensemble_LEAR_forecast_dataframe_' + str(name_dataframe)+ \
                          '_RW' + str(recalibration_window) + '.csv'
 
         Ensemble_file_path = os.path.join(path_forecasts_folder,Ensemble_file_name)

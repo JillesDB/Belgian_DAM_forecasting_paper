@@ -188,7 +188,10 @@ class LEAR(object):
             start_pred = time.time()
             Yp = self.predict(X=Xtest, return_coef_hour=return_coef_hour)
             time_pred = time.time() - start_pred
-            return Yp, [time_rec_lambda,time_rec_coeff,time_pred]
+            if timing:
+                return Yp, [time_rec_lambda,time_rec_coeff,time_pred]
+            else:
+                return Yp, [0,0,0]
 
     def _build_and_split_XYs(self, df_train, df_test=None, date_test=None):
 

@@ -25,7 +25,7 @@ def calc_mae(file_forecast,path_real_prices,begin_test_date=None,end_test_date=N
     """
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
-    file_path = (os.path.join(path_forecasts_folder,str(file_forecast+'.csv')))
+    file_path = (os.path.join(path_forecasts_folder,str(file_forecast)))
     if os.path.isfile(file_path):
         forecast = pd.read_csv(file_path)
         forecast = forecast.set_index('Date')
@@ -54,7 +54,7 @@ def calc_rmae(file_forecast, path_real_prices, begin_test_date=None, end_test_da
     """
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
-    file_path = os.path.join(path_forecasts_folder,str(file_forecast+'.csv'))
+    file_path = os.path.join(path_forecasts_folder,str(file_forecast))
     if os.path.isfile(file_path):
         forecast = pd.read_csv(file_path)
         forecast = forecast.set_index('Date')

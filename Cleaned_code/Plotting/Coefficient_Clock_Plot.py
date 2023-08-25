@@ -106,8 +106,23 @@ def generate_clock_plot_from_existing_file(path_file,group_curves_by = 'date',co
 
 
 
-generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Forecasts_for_plots\Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv',
-                                       group_curves_by='month')
+# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Forecasts_for_plots\Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv',
+#                                        group_curves_by='month')
 generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
-                         begin_plot_date='2021-01-01',end_plot_date='2022-12-31', calibration_window=56,
-                                 group_curves_by='month')
+                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=56,
+                                 group_curves_by='season')
+generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
+                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=84,
+                                 group_curves_by='season')
+generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
+                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=112,
+                                 group_curves_by='season')
+generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
+                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=714,
+                                 group_curves_by='season')
+generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
+                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=721,
+                                 group_curves_by='season')
+generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
+                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=728,
+                                 group_curves_by='season')
