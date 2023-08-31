@@ -33,7 +33,7 @@ def generate_clock_plot_coefficients(name_dataframe,calibration_window=56,
 
     """
     path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
-    path_forecasts_folder = str(Path.cwd().parent)+'\Forecasts_for_plots'
+    path_forecasts_folder = str(Path.cwd().parent)+'\Coefficients_for_clock_plots'
     dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
     hourly_index = pd.date_range(start=begin_plot_date, end=end_plot_date+' 23:00', freq='H')
     data = {'datetime' : hourly_index , 'Solar' : [0] * len(hourly_index),'Wind' : [0] * len(hourly_index),
@@ -73,15 +73,15 @@ def generate_clock_plot_coefficients(name_dataframe,calibration_window=56,
             Abs_Coef_CH_price,#'Swiss_Prices'
             Abs_Coef_BE_load+Abs_Coef_weather] #'BE_Load_Weather':]
             #dataframe_coefficient.iloc[count*24+h,1] = dict_coefficient_values_per_family[str(covariate_family)]
-    name_csv_file = 'Data_clock_plot_' + 'dataframe_' + str(name_dataframe) + \
+    name_csv_file = 'Data_clock_plot_dataframe_' + str(name_dataframe) + \
                     '_CW' + str(calibration_window)  + '.csv'
     dataframe_coefficient.to_csv(os.path.join(path_forecasts_folder, name_csv_file),mode='w')
     fig = cp.clock_plot(dataframe_coefficient,datetime_col='datetime',
                   value_col=str(covariate_family),color=group_curves_by,
-                        title_start='Coefficients for '+str(covariate_family))
+                        title_start='Coefficients for {} \n for the duration of {} - {}\n'.format(str(covariate_family),begin_plot_date,end_plot_date))
     fig.show()
 
-def generate_clock_plot_from_existing_file(path_file,group_curves_by = 'date',covariate_family = 'Lagged_Prices'):
+def generate_clock_plot_from_existing_file(path_file,calibration_window,group_curves_by = 'date',covariate_family = 'Lagged_Prices'):
     """
 
     Parameters
@@ -98,31 +98,27 @@ def generate_clock_plot_from_existing_file(path_file,group_curves_by = 'date',co
 
     """
     dataframe_coefficient = pd.read_csv(path_file)
-    fig = cp.clock_plot(dataframe_coefficient,datetime_col='datetime',
-                  value_col=str(covariate_family),color=group_curves_by,
-                        title_start='Coefficients for '+str(covariate_family))
+    begin_date = dataframe_coefficient['datetime'].iloc[0]
+    end_date  = dataframe_coefficient['datetime'].iloc[-1]
+    if group_curves_by == 'variable family':
+        dataframe_coefficients_long_form = dataframe_coefficient.melt(id_vars=["datetime"], value_vars=["Solar", "Wind", "Lagged_Prices", "Fossil_Fuels", "FR_Generation_Load",'Swiss_Prices','BE_Load_Weather'])
+        dataframe_coefficients_long_form.rename(columns={"variable": "variable family"}, inplace=True)
+        print(dataframe_coefficients_long_form.head())
+        fig = cp.clock_plot(dataframe_coefficients_long_form,datetime_col='datetime',
+                  value_col='value',color='variable family',
+                        title='All Coefficients for CW{} \n from {} until {}'.format(calibration_window,str(begin_date),str(end_date)))
+    else:
+        fig = cp.clock_plot(dataframe_coefficient, datetime_col='datetime',
+                            value_col=str(covariate_family), color=group_curves_by,
+                            title='{} Coefficients for {} \n from {} until {}'.format(str(covariate_family),calibration_window,str(begin_date),str(end_date)))
     fig.show()
 
 
 
 
-# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Forecasts_for_plots\Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv',
+# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv',
 #                                        group_curves_by='month')
-generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
-                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=56,
-                                 group_curves_by='season')
-generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
-                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=84,
-                                 group_curves_by='season')
-generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
-                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=112,
-                                 group_curves_by='season')
-generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
-                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=714,
-                                 group_curves_by='season')
-generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
-                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=721,
-                                 group_curves_by='season')
-generate_clock_plot_coefficients(name_dataframe='Example_dataframe',
-                         begin_plot_date='2020-01-01',end_plot_date='2022-12-31', calibration_window=728,
-                                 group_curves_by='season')
+generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW56.csv',
+                             calibration_window=56,
+                                 group_curves_by='variable family')
+

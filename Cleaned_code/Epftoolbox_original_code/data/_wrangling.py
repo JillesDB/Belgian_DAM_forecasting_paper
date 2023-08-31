@@ -25,8 +25,10 @@ class MedianScaler(object):
 
         self.median = np.median(data, axis=0)
         self.mad = mad(data, axis=0)
+        self.std = np.std(data,axis=0)
         self.fitted = True
-        
+        self.var = np.var(data,axis=0)
+
     def fit_transform(self, data):
 
         self.fit(data)
@@ -45,8 +47,10 @@ class MedianScaler(object):
         transformed_data = np.zeros(shape=data.shape)
 
         for i in range(data.shape[1]):
-            if self.median[i] ==0 :
-                transformed_data[:,i] = 0
+            if self.mad[i] ==0 :
+                #print(data,self.std[i],self.mad[i])
+                transformed_data[:, i] = (data[:, i])
+                #transformed_data[:, i] = (data[:, i] - self.median[i]) / self.var[i] #Mean abs deviation
             else:
                 transformed_data[:, i] = (data[:, i] - self.median[i]) / self.mad[i] #Mean abs deviation
 
@@ -65,9 +69,9 @@ class MedianScaler(object):
         transformed_data = np.zeros(shape=data.shape)
 
         for i in range(data.shape[1]):
-            # if self.median[i] ==0 :
-            #     transformed_data[:,i] = 0
-            # else:
+            if self.mad[i] ==0 :
+                 transformed_data[:,i] = data[:,i]
+            else:
                 transformed_data[:, i] = data[:, i] * self.mad[i] + self.median[i]
 
         return transformed_data
