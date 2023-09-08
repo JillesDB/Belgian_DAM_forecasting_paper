@@ -6,7 +6,8 @@ from evaluation import MAE
 from pathlib import Path
 
 cwd = Path.cwd()
-def time_forecast(name_dataframe,path_real_prices=None,begin_test_date=None,end_test_date=None,recalibration_window=1,
+def time_forecast(name_dataframe,path_real_prices=None,path_datasets_folder = None,
+                  path_forecasts_folder=None,begin_test_date=None,end_test_date=None,recalibration_window=1,
                              set_cws=frozenset([56,84,112,714,721,728]),years_test=0):
     """
 
@@ -36,8 +37,10 @@ def time_forecast(name_dataframe,path_real_prices=None,begin_test_date=None,end_
     """
 
     timing_forecasts = pd.DataFrame()
-    path_datasets_folder = str(cwd)+'\Datasets\Dataframes_one_ex_var'
-    path_forecasts_folder = str(cwd)+'\Forecasts_for_plots'
+    if path_datasets_folder is None:
+        path_datasets_folder = str(cwd)+'\Datasets'
+    if path_forecasts_folder is None:
+        path_forecasts_folder = str(cwd) + '\Forecasts'
     for cw in set_cws:
         timing_forecasts = pd.DataFrame()
         name_csv_file = 'LEAR_forecast_timing_dataframe_' + str(name_dataframe) + '_YT' + str(years_test) + \
@@ -46,22 +49,20 @@ def time_forecast(name_dataframe,path_real_prices=None,begin_test_date=None,end_
         'check whether forecast exists already'
         print('forecasting file ' + str(path_file))
         start = time.time()
-        a = _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
+        forecast,timing_df = _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                         path_recalibration_folder=path_forecasts_folder, dataset=str(name_dataframe), \
-                                                        calibration_window=cw,
-                                                        begin_test_date=str(begin_test_date) + ' 00:00',
-                                                        end_test_date=str(end_test_date) + ' 23:00',
-                                                        recal_interval=recalibration_window, years_test=years_test,
-                                                        timing=1)
-        timing_forecasts = pd.concat([timing_forecasts,a],axis=1)
+                                                        calibration_window=cw,begin_test_date=str(begin_test_date) + ' 00:00',
+                                                        end_test_date=str(end_test_date) + ' 23:00',recalibration_window=recalibration_window,
+                                                                 years_test=years_test,timing=1)
+        timing_forecasts = pd.concat([timing_forecasts,timing_df],axis=1)
         total_time = time.time() - start
-        print('Total time was '+str(total_time)+ ' sec for '+str(len(timing_forecasts.index))+
-              ' predictions with dataframe '+ str(name_dataframe)+'_CW_'+str(cw)+'_RW_'+str(recalibration_window))
+        print('Total time was {} sec for {} predictions with dataframe {}_CW_{}_RW_{}'.
+              format(str(total_time),str(len(timing_forecasts.index)),str(name_dataframe),str(cw),str(recalibration_window)))
         timing_forecasts.loc['average computation time for dataframe '
           + str(name_dataframe)+'_CW_'+str(cw)] = timing_forecasts.mean()
         print(timing_forecasts.loc['average computation time for dataframe '+ str(name_dataframe)+'_CW_'+str(cw)])
-
-    #return timing_forecasts.loc['average computation time']
+    print(timing_forecasts)
+    return timing_forecasts.loc['average computation time']
 
 #time_forecast(name_dataframe='Example_dataframe',begin_test_date='2021-01-01',
 #              end_test_date='2021-01-08', set_cws={56})

@@ -28,7 +28,7 @@ import warnings
 
 warnings.simplefilter("ignore", category=FutureWarning)
 
-
+time_pred, time_rec_coeff, time_rec_lambda = 0, 0, 0
 class LEAR(object):
     """Class to build a LEAR model, recalibrate it, and use it to predict DA electricity prices.
 
@@ -48,7 +48,7 @@ class LEAR(object):
 
     # Ignore convergence warnings from scikit-learn LASSO module
     @ignore_warnings(category=ConvergenceWarning)
-    def recalibrate(self, Xtrain, Ytrain):
+    def recalibrate(self, Xtrain, Ytrain, time_rec_lambda=0, time_rec_coeff=0):
         """Function to recalibrate the LEAR model.
 
         It uses a training (Xtrain, Ytrain) pair for recalibration
@@ -79,8 +79,6 @@ class LEAR(object):
         # Xtrain[:,:], self.scalerX =scaling([Xtrain[:, :-7]], 'Norm1')
         self.models = {}
         self.coef = {}
-        time_rec_lambda = 0
-        time_rec_coeff = 0
         for h in range(24):
             # Estimating lambda hyperparameter using LARS
             start_rec_lambda = time.time()
@@ -154,7 +152,7 @@ class LEAR(object):
             # Predicting test dataset and saving
             # self.predict is basically a dot product of coefficients and X (=asihn transformed Xtest data)
 
-    def recalibrate_predict(self, Xtrain, Ytrain, Xtest, i, return_coef_hour=0,timing=0):
+    def recalibrate_predict(self, Xtrain, Ytrain, Xtest, i, return_coef_hour=0, timing=0, time_pred=0):
         """Function that first recalibrates the LEAR model and then makes a prediction.
 
         The function receives the training dataset, and trains the LEAR model. Then, using
@@ -174,7 +172,8 @@ class LEAR(object):
         numpy.array
             An array containing the predictions in the test dataset.
         """
-        time_pred=0
+
+        global time_rec_lambda, time_rec_coeff
         if i == 0:
             time_rec_lambda, time_rec_coeff = self.recalibrate(Xtrain=Xtrain, Ytrain=Ytrain)
         if len(Xtest) == 0:
@@ -187,7 +186,7 @@ class LEAR(object):
         else:
             start_pred = time.time()
             Yp = self.predict(X=Xtest, return_coef_hour=return_coef_hour)
-            time_pred = time.time() - start_pred
+            time_pred += time.time() - start_pred
             if timing:
                 return Yp, [time_rec_lambda,time_rec_coeff,time_pred]
             else:
@@ -413,7 +412,10 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                 current_date = date + pd.Timedelta(hours=(i) * 24)
                 # current date shouldn't run further than the end_test_date, so then the code should finish.
                 if current_date > pd.to_datetime(end_test_date):
-                    return forecast
+                    if timing:
+                        return forecast, timing_dataframe
+                    else:
+                        return forecast
                 if date + pd.Timedelta(hours=23) + pd.Timedelta(hours=(recalibration_window - 1) * 24) < pd.to_datetime(
                         end_test_date):
                     data_available = pd.concat([df_train, df_test.loc[:date + pd.Timedelta(hours=23) + pd.Timedelta(
@@ -449,7 +451,7 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                 # Saving forecast
                 forecast.to_csv(forecast_file_path)
                 if timing:
-                    timing_dataframe.loc[date] = time_rec_lambda,time_rec_coeff,time_pred
+                    timing_dataframe.loc[current_date] = time_rec_lambda,time_rec_coeff,time_pred
                     #timing_dataframe.loc[date,1] =time_pred
 
         else:

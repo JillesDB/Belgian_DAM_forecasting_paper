@@ -88,5 +88,5 @@ def GW_plot_forecasts_in_folder(forecasts_folder_path,path_real_prices, plot_tit
     _gw.plot_multivariate_GW_test(real_price=real_prices_selection['Prices'], forecasts=dataframe_all_forecasts,
                               title=plot_title)
 
-DM_plot_forecasts_in_folder(forecasts_folder_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Forecasts',path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv', plot_title='DM test')
-GW_plot_forecasts_in_folder(forecasts_folder_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Forecasts',path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv', plot_title='GW test')
+DM_plot_forecasts_in_folder(forecasts_folder_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Forecasts\DM_and_GW',path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv', plot_title='DM test')
+GW_plot_forecasts_in_folder(forecasts_folder_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Forecasts\DM_and_GW',path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv', plot_title='GW test')
