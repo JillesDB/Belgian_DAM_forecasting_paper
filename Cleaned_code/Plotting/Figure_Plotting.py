@@ -8,9 +8,9 @@ import os
 from sklearn.metrics import r2_score
 from pathlib import Path
 plt.rcParams.update({'font.size': 14})
-path_forecasts_folder = str(Path.cwd().parent) + '\Forecasts'
+path_forecasts_folder1 = str(Path.cwd().parent) + '\Forecasts'
 
-def scatter_plot(file_forecast,path_real_prices,name_forecast = None):
+def scatter_plot(file_forecast,path_real_prices,name_forecast = None,path_forecasts_folder=path_forecasts_folder1):
     """
 
     Parameters
@@ -35,10 +35,10 @@ def scatter_plot(file_forecast,path_real_prices,name_forecast = None):
     y_hat = np.poly1d(z)(real_prices.iloc[:,0])
     plt.xlabel('Actual Prices[EUR/MWh]')
     plt.ylabel(str(name_forecast)+' [EUR/MWh]')
-    plt.legend(title="Scatter plot: Actual Prices and Forecast " + str(name_forecast))
+    plt.legend(title="Scatter plot: Actual Prices and Forecast {}".format(str(name_forecast)))
     plt.show()
 
-def line_plot(file_forecast,path_real_prices,name_forecast= None):
+def line_plot(file_forecast,path_real_prices,name_forecast= None,path_forecasts_folder=path_forecasts_folder1):
     """
 
     Parameters
@@ -62,10 +62,10 @@ def line_plot(file_forecast,path_real_prices,name_forecast= None):
     plot2 = forecast.plot(y = 0,ax=plot1)
     plt.xlabel('Date')
     plt.ylabel('Prices [€/MWh]')
-    plot1.legend(['Actual Prices - 2020 - 2022','Forecast '+str(name_forecast)])
+    plot1.legend(['Actual Prices - 2020 - 2022','Forecast {}'.format(str(name_forecast))])
     plt.show()
 
-def joris_plots(path_real_prices,file_forecast,name_forecast=None):
+def joris_plots(path_real_prices,file_forecast,name_forecast=None,path_forecasts_folder=path_forecasts_folder1):
     """
 
     Parameters
@@ -86,18 +86,22 @@ def joris_plots(path_real_prices,file_forecast,name_forecast=None):
     real_prices_selection = _ancillary_functions._transform_input_prices_for_naive_forecast(real_prices_selection,m='D',freq='1H')
     forecast = _ancillary_functions._transform_input_prices_for_naive_forecast(forecast,m='D',freq='1H')
     eval = evaluation.Evaluation(actual=real_prices_selection.iloc[:, 0], forecast=forecast.iloc[:, 0])
-    plot_J_1 = eval.plot_joint(levels=11,xlabel='Actual Prices',ylabel='Forecast ' + str(name_forecast))
-    plot_J_2 = eval.plot_conditional(x_label='Actual Prices',y_label='Forecast ' + str(name_forecast),intervals=11)
+    plot_J_1 = eval.plot_joint(levels=11,xlabel='Actual Prices [€/MWh]',ylabel='Forecast {} [€/MWh]'.format(str(name_forecast)))
+    plot_J_2 = eval.plot_conditional(x_label='Actual Prices [€/MWh]',y_label='Forecast {} [€/MWh] '.format(str(name_forecast),intervals=11))
     plt.show()
 
 
 line_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-          name_forecast='CW56RW28',file_forecast='LEAR_forecast_dataframe_Example_dataframe_CW56_RW28')
+          name_forecast='Real Prices 2020 - 2022',file_forecast='Real_prices',path_forecasts_folder = r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets')
 # scatter_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#           name_forecast='Weighted ensemble',file_forecast='Weighted_Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1')
+#           name_forecast='Full Dataset RW1',file_forecast='Weighted_Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1')
+# scatter_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
+#           name_forecast='Full Dataset No Recal.',file_forecast='Weighted_Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1100')
 # joris_plots(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#           name_forecast='Weighted ensemble',file_forecast='Weighted_Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1')
-line_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-          name_forecast='CW56RW84',file_forecast='LEAR_forecast_dataframe_Example_dataframe_CW56_RW84')
-line_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-          name_forecast='CW56RW168',file_forecast='LEAR_forecast_dataframe_Example_dataframe_CW56_RW168')
+#           name_forecast='Full Dataset RW1',file_forecast='Weighted_Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1')
+# joris_plots(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
+#           name_forecast='Full Dataset No Recal.',file_forecast='Weighted_Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1100')
+# line_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
+#           name_forecast='CW56RW84',file_forecast='LEAR_forecast_dataframe_Example_dataframe_CW56_RW84')
+# line_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
+#           name_forecast='CW56RW168',file_forecast='LEAR_forecast_dataframe_Example_dataframe_CW56_RW168')

@@ -38,7 +38,7 @@ def DM_plot_forecasts_in_folder(forecasts_folder_path,path_real_prices,plot_titl
             else:
                 dataframe_all_forecasts = dataframe_all_forecasts.join(forecast_transformed,rsuffix='new')
                 dataframe_all_forecasts.columns = [*dataframe_all_forecasts.columns[:-1], str(forecast_name)]
-
+    dataframe_all_forecasts = dataframe_all_forecasts.reindex(columns = ['CH_Price','2Var_Fam','3Var_Fam','4Var_Fam','5Var_Fam','Full_Dataset'])
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
     real_prices_transformed = _ancillary_functions._transform_input_prices_for_naive_forecast(real_prices, m='D', freq='1H')
@@ -67,7 +67,6 @@ def GW_plot_forecasts_in_folder(forecasts_folder_path,path_real_prices, plot_tit
     dataframe_all_forecasts = None
     for forecast_name in os.listdir(forecasts_folder_path):
         forecast_file_path = os.path.join(forecasts_folder_path,str(forecast_name))
-        # checking if it is a file
         if os.path.isfile(forecast_file_path):
             forecast = pd.read_csv(forecast_file_path)
             forecast = forecast.set_index('Date')
@@ -79,7 +78,7 @@ def GW_plot_forecasts_in_folder(forecasts_folder_path,path_real_prices, plot_tit
             else:
                 dataframe_all_forecasts = dataframe_all_forecasts.join(forecast_transformed,rsuffix='new')
                 dataframe_all_forecasts.columns = [*dataframe_all_forecasts.columns[:-1], str(forecast_name)]
-
+    dataframe_all_forecasts = dataframe_all_forecasts.reindex(columns = ['CH_Price','2Var_Fam','3Var_Fam','4Var_Fam','5Var_Fam','Full_Dataset'])
     real_prices = pd.read_csv(path_real_prices)
     real_prices = real_prices.set_index('Date')
     real_prices_transformed = _ancillary_functions._transform_input_prices_for_naive_forecast(real_prices, m='D', freq='1H')

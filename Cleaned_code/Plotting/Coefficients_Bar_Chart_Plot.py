@@ -5,7 +5,7 @@ from pathlib import Path
 import os
 import altair as alt
 
-def plot_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,calibration_window):
+def plot_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,calibration_window,file_path=None):
     """
 
     Parameters
@@ -45,6 +45,16 @@ def plot_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,cal
             coef_dict_day.extend([{"hour": h,
                                    "Abs_Coef": str(dataframe.columns.tolist()[i+2]),
                                    "value": abs(sum(coef[(96+i):(number_coefficients-number_exog_vars+i+1):number_exog_vars]))}])
+
+    dataframe = pd.read_csv(file_path)
+    dataframe['datetime'] = pd.to_datetime(dataframe['datetime'])
+    dataframe = dataframe.set_index('datetime')
+    dataframe = dataframe.drop(columns=['Unnamed: 0'],axis=1)
+    dataframe = dataframe[dataframe.index.date == day_to_plot]
+    dataframe.index = dataframe.index.dt.hour
+    dataframe = dataframe.reset_index(drop = False)
+    dataframe.index.name = 'hour'
+    dataframe.melt('hour', var_name='Var_Family', value_name='value')
 
     #Altair plotting
     data1 = alt.Data(values=coef_dict_day)

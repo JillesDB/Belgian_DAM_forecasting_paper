@@ -109,16 +109,16 @@ def generate_clock_plot_from_existing_file(path_file,calibration_window,group_cu
             fig = cp.clock_plot(dataframe_coefficients_long_form,datetime_col='datetime',
                       value_col='value',color='variable family',filters=filter,
                                 #title='All Coefficients for CW 112')
-                            title='All Coefficients for CW{} \n from {} until {}'.format(calibration_window,str(begin_date),str(end_date)))
+                            title='All Coefficients for CW{} from 1 Jan 2020 until 31 Dec 2022'.format(calibration_window,str(begin_date),str(end_date)))
         else:
             fig = cp.clock_plot(dataframe_coefficients_long_form, datetime_col='datetime',
                                 value_col='value', color='variable family', filters=filter,
                                 # title='All Coefficients for CW 112')
-                                title='All Coefficients for CW{} in {}'.format(calibration_window, str(filter)))
+                                title='Fossil Fuel Coefficients for CW{} in 2021}'.format(calibration_window, str(filter)))
     else:
         fig = cp.clock_plot(dataframe_coefficient, datetime_col='datetime', filters=filter,
                             value_col=str(covariate_family), color=group_curves_by,
-                            title='{} Coefficients for CW {} in {}'.format(str(covariate_family),calibration_window,str(filter)))
+                            title='{} Coefficients for CW {}, in 2022'.format(str(covariate_family),calibration_window,str(filter)))
                            # title='{} Coefficients for CW {}\n from {} until {}'.format(str(covariate_family),calibration_window,str(begin_date),str(end_date)))
     fig.show()
 
@@ -127,9 +127,9 @@ def generate_clock_plot_from_existing_file(path_file,calibration_window,group_cu
 
 # generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv',
 #                                        group_curves_by='month')
-generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv',
-                             calibration_window=728,group_curves_by='variable family',filter={'year': 2020})
-generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv',
-                             calibration_window=728,group_curves_by='variable family',filter={'year': 2021})
-generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv',
-                             calibration_window=728,group_curves_by='variable family',filter={'year': 2022})
+# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv',
+#                              calibration_window=728,group_curves_by='variable family',filter={'year': 2020})
+generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW56.csv',
+                             calibration_window=56,group_curves_by='season',covariate_family='Fossil_Fuels',filter={'year': 2022})
+#generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv',
+ #                            calibration_window=728,group_curves_by='variable family',filter={'year': 2022})
