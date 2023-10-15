@@ -36,5 +36,5 @@ def forward_feature_selection(path_dataframe,begin_test_date,end_test_date, n,ca
     return feature_set
 
 f = forward_feature_selection(path_dataframe=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Example_dataframe.csv',
-                              begin_test_date='2020-01-01',end_test_date='2022-12-31',calibration_window=112,n=13)
+                              begin_test_date='2020-01-01',end_test_date='2022-12-31',calibration_window=728,n=13)
 print(f)
