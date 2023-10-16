@@ -33,8 +33,8 @@ def generate_clock_plot_coefficients(name_dataframe,calibration_window=56,
 
     """
     path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
-    path_forecasts_folder = str(Path.cwd().parent)+'\Coefficients_for_clock_plots'
-    dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
+    path_forecasts_folder = str(Path.cwd().parent)+'\Dataframes_with_Coefficients'
+    #dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
     hourly_index = pd.date_range(start=begin_plot_date, end=end_plot_date+' 23:00', freq='H')
     data = {'datetime' : hourly_index , 'Solar' : [0] * len(hourly_index),'Wind' : [0] * len(hourly_index),
             'Lagged_Prices': [0] * len(hourly_index), 'Fossil_Fuels': [0] * len(hourly_index),
@@ -125,11 +125,11 @@ def generate_clock_plot_from_existing_file(path_file,calibration_window,group_cu
 
 
 
-# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv',
+# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Dataframes_with_Coefficients\Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv',
 #                                        group_curves_by='month')
-# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv',
+# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Dataframes_with_Coefficients\Data_clock_plot_dataframe_Example_dataframe_CW728.csv',
 #                              calibration_window=728,group_curves_by='variable family',filter={'year': 2020})
-generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW56.csv',
-                             calibration_window=56,group_curves_by='season',covariate_family='Fossil_Fuels',filter={'year': 2022})
-#generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv',
+generate_clock_plot_from_existing_file(path_file=r'/Dataframes_with_Coefficients\Data_clock_plot_dataframe_Example_dataframe_CW56.csv',
+                                       calibration_window=56, group_curves_by='season', covariate_family='Fossil_Fuels', filter={'year': 2022})
+#generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Dataframes_with_Coefficients\Data_clock_plot_dataframe_Example_dataframe_CW728.csv',
  #                            calibration_window=728,group_curves_by='variable family',filter={'year': 2022})
