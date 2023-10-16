@@ -4,8 +4,83 @@ import datetime
 from pathlib import Path
 import os
 import altair as alt
+alt.data_transformers.disable_max_rows()
 
-def plot_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,calibration_window,file_path=None):
+import numpy as np
+
+real_prices = pd.read_csv(r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
+real_prices = real_prices.set_index('Date')
+
+def coef_analysis_dict(day_nr,cw,hour=0):
+    h =hour
+    day = datetime.date(2021,1,1) +  datetime.timedelta(day_nr)
+    start = datetime.datetime.strptime("01/01/2021 00:00","%d/%m/%Y %H:%M") + datetime.timedelta(day_nr)
+    end = datetime.datetime.strptime("01/01/2021 23:00","%d/%m/%Y %H:%M") + datetime.timedelta(day_nr)
+    print(start,end)
+    models,effect_matrix,xtest,Yp = (
+        _lear.evaluate_lear_in_test_dataset(path_datasets_folder=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Code_Jilles\Model_AdvForecaster', \
+                                                                 path_recalibration_folder=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Code_Jilles\Model_AdvForecaster/Stacked_Bar_Plot\med', dataset='Model_AdvForecaster_dataframe', \
+                                                                 calibration_window=cw, begin_test_date=start, end_test_date=end, return_coef_hour=1))
+    #print(effect_matrix,xtest)
+    zeros = effect_matrix[14]
+    real_prices_day = real_prices.iloc[day_nr,:]
+    intercepts = effect_matrix[15]
+    std_prices = effect_matrix[0]
+    coef_dict_day = []
+    coef = models[h].coef_
+    Abs_Coef_lag_prices = abs(sum(coef[:96]))
+    Abs_Coef_BE_load = abs(sum(coef[96:949:12]))
+    Abs_Coef_BE_wind= abs(sum(coef[97:950:12]))
+    Abs_Coef_BE_solar= abs(sum(coef[98:951:12]))
+    Abs_Coef_CH_price= abs(sum(coef[99:952:12]))
+    Abs_Coef_FR_gen= abs(sum(coef[100:953:12]))
+    Abs_Coef_DE_wind= abs(sum(coef[101:954:12]))
+    Abs_Coef_DE_solar= abs(sum(coef[102:955:12]))
+    Abs_Coef_Oil = abs(sum(coef[103:956:12]))
+    Abs_Coef_Carbon = abs(sum(coef[104:957:12]))
+    Abs_Coef_Gas= abs(sum(coef[105:958:12]))
+    Abs_Coef_weather= abs(sum(coef[106:959:12]))
+    Abs_Coef_FR_load= abs(sum(coef[107:960:12]))
+    sum_abs_coeff = (
+            Abs_Coef_lag_prices
+            + Abs_Coef_BE_load
+            + Abs_Coef_BE_wind
+            + Abs_Coef_BE_solar
+            + Abs_Coef_CH_price
+            + Abs_Coef_FR_gen
+            + Abs_Coef_DE_wind
+            + Abs_Coef_DE_solar
+            + Abs_Coef_Oil
+            + Abs_Coef_Carbon
+            + Abs_Coef_Gas
+            + Abs_Coef_weather
+            + Abs_Coef_FR_load
+    )
+    coef_dict_day.extend([
+      {"day": day.strftime("%d-%b-%Y"),
+        "Abs_Coef": "Abs. Coeff. Lagged Prices",
+        "value": Abs_Coef_lag_prices},
+      {"day": day.strftime("%d-%b-%Y"),
+       "Abs_Coef": "Abs. Coeff. BE Load & Weather",
+       "value": Abs_Coef_BE_load+Abs_Coef_weather},
+      {"day": day.strftime("%d-%b-%Y"),
+       "Abs_Coef": "Abs. Coeff. Wind Forecast",
+       "value": Abs_Coef_DE_wind+Abs_Coef_BE_wind},
+      {"day": day.strftime("%d-%b-%Y"),
+       "Abs_Coef": "Abs. Coeff. Solar Forecast",
+       "value": Abs_Coef_DE_solar+Abs_Coef_BE_solar},
+      {"day": day.strftime("%d-%b-%Y"),
+       "Abs_Coef": "Abs. Coeff. Fossil Fuels",
+       "value": Abs_Coef_Oil+Abs_Coef_Carbon+Abs_Coef_Gas},
+      {"day": day.strftime("%d-%b-%Y"),
+       "Abs_Coef": "Abs. Coeff. CH Prices",
+       "value": Abs_Coef_CH_price},
+        {"day": day.strftime("%d-%b-%Y"),
+         "Abs_Coef": "Abs. Coeff. FR Load & Generation",
+     "value": Abs_Coef_FR_load+Abs_Coef_FR_gen}])
+    return coef_dict_day,day,real_prices_day,std_prices
+
+def create_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,calibration_window,file_path=None):
     """
 
     Parameters
@@ -20,62 +95,73 @@ def plot_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,cal
     -------
 
     """
-    path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
-    path_forecasts_folder = str(Path.cwd().parent) + '\Forecasts_for_plots'
-    real_prices = pd.read_csv(path_real_prices)
-    real_prices = real_prices.set_index('Date')
-    real_prices_day = real_prices.loc[day_to_plot]
-    dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
-    models, effect_matrix, xtest, Yp = (_lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
-                                                                 path_recalibration_folder= path_forecasts_folder, dataset=str(name_dataframe), \
-                                                                 calibration_window=calibration_window, begin_test_date= str(day_to_plot) + ' 00:00',
-                                                                            end_test_date=str(day_to_plot) + ' 23:00', return_coef_hour=1))
-    coef_dict_day = []
-    forecast_prices_day = effect_matrix[0]
-    for h in range(24):
-        coef = models[h].coef_
-        number_exog_vars = len(dataframe.columns)-2
-        number_coefficients = 96 + 72 * number_exog_vars
-        Abs_Coef_lag_prices = abs(sum(coef[:96]))
-        coef_dict_day.extend([
-            {"hour": h,
-             "Abs_Coef": "Abs. Coeff. Lagged Prices",
-             "value": Abs_Coef_lag_prices}])
-        for i in range(number_exog_vars):
-            coef_dict_day.extend([{"hour": h,
-                                   "Abs_Coef": str(dataframe.columns.tolist()[i+2]),
-                                   "value": abs(sum(coef[(96+i):(number_coefficients-number_exog_vars+i+1):number_exog_vars]))}])
+    # path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
+    # path_forecasts_folder = str(Path.cwd().parent) + '\Forecasts_for_plots'
+    # real_prices_day = real_prices.loc[day_to_plot]
+    # dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
+    # models, effect_matrix, xtest, Yp = (_lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
+    #                                                              path_recalibration_folder= path_forecasts_folder, dataset=str(name_dataframe), \
+    #                                                              calibration_window=calibration_window, begin_test_date= str(day_to_plot) + ' 00:00',
+    #                                                                         end_test_date=str(day_to_plot) + ' 23:00', return_coef_hour=1))
+    # coef_dict_day = []
+    # forecast_prices_day = effect_matrix[0]
+    # for h in range(24):
+    #     coef = models[h].coef_
+    #     number_exog_vars = len(dataframe.columns)-2
+    #     number_coefficients = 96 + 72 * number_exog_vars
+    #     Abs_Coef_lag_prices = abs(sum(coef[:96]))
+    #     coef_dict_day.extend([
+    #         {"hour": h,
+    #          "Abs_Coef": "Abs. Coeff. Lagged Prices",
+    #          "value": Abs_Coef_lag_prices}])
+    #     for i in range(number_exog_vars):
+    #         coef_dict_day.extend([{"hour": h,
+    #                                "Abs_Coef": str(dataframe.columns.tolist()[i+2]),
+    #                                "value": abs(sum(coef[(96+i):(number_coefficients-number_exog_vars+i+1):number_exog_vars]))}])
+    # # if existing_file_path is None:
+    #     full_set = []
+    #     for day_nr in dates:
+    #         coef,day,real_prices_day,forecasted_prices = coef_analysis_dict(day_nr,cal_window,hour)
+    #         full_set.extend(coef)
+    # else:
 
     dataframe = pd.read_csv(file_path)
+    print(dataframe)
     dataframe['datetime'] = pd.to_datetime(dataframe['datetime'])
-    dataframe = dataframe.set_index('datetime')
-    dataframe = dataframe.drop(columns=['Unnamed: 0'],axis=1)
-    dataframe = dataframe[dataframe.index.date == day_to_plot]
-    dataframe.index = dataframe.index.dt.hour
-    dataframe = dataframe.reset_index(drop = False)
-    dataframe.index.name = 'hour'
-    dataframe.melt('hour', var_name='Var_Family', value_name='value')
-
+    #dataframe = dataframe.set_index('datetime')
+    #dataframe = dataframe.drop(columns=['Unnamed: 0'],axis=1)
+    day_to_plot_dt = datetime.datetime.strptime(day_to_plot, '%Y-%m-%d')
+    #print(dataframe.index.date,day_to_plot_dt)
+    filtered_dataframe = (dataframe['datetime'] >= day_to_plot_dt) & (dataframe['datetime'] <day_to_plot_dt+datetime.timedelta(days=1))
+    filtered_dataframe = dataframe.loc[filtered_dataframe]
+    #dataframe = dataframe[dataframe.index.date == day_to_plot_dt]
+    #filtered_dataframe.index = dataframe.index.hour
+    #dataframe = dataframe.reset_index(drop = False)
+    filtered_dataframe = filtered_dataframe.drop(columns=['datetime'],axis=1)
+    #filtered_dataframe.index.name = 'hour'
+    print(filtered_dataframe)
+    filtered_dataframe = pd.melt(filtered_dataframe,id_vars='Unnamed: 0', var_name='Var_Family', value_name='value')
+    print(filtered_dataframe)
     #Altair plotting
-    data1 = alt.Data(values=coef_dict_day)
-    bar_chart = alt.Chart(data1).mark_bar(size=12.5).encode(
-        x=alt.X('hour:N', axis=alt.Axis(title='Hour of day on ' + str(day_to_plot), ticks=True)),
-        y=alt.Y('sum(value):Q', axis=alt.Axis(title='Absolute Value Coefficients'), stack="zero"),
-        color=alt.Color('Abs_Coef:N', scale=alt.Scale(scheme='lightmulti'))
+    #data1 = alt.Data(values=filtered_dataframe)
+    bar_chart = alt.Chart(filtered_dataframe).mark_bar(size=12.5).encode(
+        x=alt.X('Unnamed: 0:N', axis=alt.Axis(title='Hour of day on ' + str(day_to_plot), ticks=True)),
+        y=alt.Y('value:Q', axis=alt.Axis(title='Absolute Value Coefficients'), stack="zero"),
+        color=alt.Color('Var_Family:N',scale=alt.Scale(range=["#c7ead4", "#b4e0aa", "#c5e08b", "#e5e079", "#f6d264", "#f5b34c", "#f4913e"]))#, scale=alt.Scale(scheme='lightmulti'))
     )
-    text = alt.Chart(data1).mark_text(dy=0.5, color='black', baseline='middle', fontSize=6).encode(
+    text = alt.Chart(filtered_dataframe).mark_text(dy=0.5, color='black', baseline='middle', fontSize=6).encode(
         # ,baseline='line-top'
-        x=alt.X('hour:N'),
+        x=alt.X('Unnamed: 0:N'),
         y=alt.Y('sum(value):Q', stack='zero')
-        , detail='Abs_Coef:N',
+        , detail='Var_Family:N',
         text=alt.Text('sum(value):Q', format='.2f')
     ).transform_filter(
         {'or': [alt.FieldGTPredicate(field='value', gt=0.04), alt.FieldLTPredicate(field='value', lt=-0.04)]})
     # combine the bar chart, text and point layers
-    chart = alt.layer(bar_chart).properties(title='Absolute Coefficients - CW' + str(calibration_window) + ' '+ str(day_to_plot)).resolve_scale(
+    chart = alt.layer(bar_chart,text).properties(title='Absolute Coefficients - CW' + str(calibration_window) + ' '+ str(day_to_plot)).resolve_scale(
         color='independent')
     # display the chart
     chart.show()
 
-plot_coefficient_bar_chart(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-                         day_to_plot='2021-01-01',calibration_window=56)
+create_coefficient_bar_chart(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
+                         day_to_plot='2020-01-01',calibration_window=56,file_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW56.csv')

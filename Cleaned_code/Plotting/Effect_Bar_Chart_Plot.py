@@ -75,5 +75,6 @@ def plot_effect_bar_chart(name_dataframe, path_real_prices, day_to_plot,calibrat
         y=alt.Y('price:Q'))
     chart = alt.layer(bar_chart,real_and_forecasted_prices_chart,text).properties(title='Prices and Predictions - CW ' + str(calibration_window)+'- for ' + str(day_to_plot)).resolve_scale(color='independent')
     chart.show()
+
 plot_effect_bar_chart(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-                         day_to_plot='2021-01-01',calibration_window=56)
+                         day_to_plot='2020-01-01',calibration_window=56)
