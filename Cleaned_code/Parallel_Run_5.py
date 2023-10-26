@@ -43,21 +43,6 @@ Generate_Evaluate_and_Time_Forecast.Predict_Evaluate_and_Time(path_real_prices=r
 regular=1,weighed=1)
 Generate_Evaluate_and_Time_Forecast.Predict_Evaluate_and_Time(path_real_prices=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Datasets\Real_prices.csv'
 ,path_forecasts_folder=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Folder_Parallel_Run_5'
-,name_dataframe='ModelBELoad_dataframe',path_datasets_folder=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Datasets\Dataframes_one_ex_var'
-,begin_test_date='01/01/2020', end_test_date='31/12/2022',recalibration_window=1,calibration_window_set={56,84,112,714,721,728},
-regular=1,weighed=1)
-Generate_Evaluate_and_Time_Forecast.Predict_Evaluate_and_Time(path_real_prices=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Datasets\Real_prices.csv'
-,path_forecasts_folder=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Folder_Parallel_Run_5'
-,name_dataframe='ModelBELoad_dataframe',path_datasets_folder=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Datasets\Dataframes_one_ex_var'
-,begin_test_date='01/01/2020', end_test_date='31/12/2022',recalibration_window=1,calibration_window_set={56,84,112,714,721,728},
-regular=1,weighed=1)
-Generate_Evaluate_and_Time_Forecast.Predict_Evaluate_and_Time(path_real_prices=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Datasets\Real_prices.csv'
-,path_forecasts_folder=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Folder_Parallel_Run_5'
-,name_dataframe='ModelBELoad_dataframe',path_datasets_folder=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Datasets\Dataframes_one_ex_var'
-,begin_test_date='01/01/2020', end_test_date='31/12/2022',recalibration_window=1,calibration_window_set={56,84,112,714,721,728},
-regular=1,weighed=1)
-Generate_Evaluate_and_Time_Forecast.Predict_Evaluate_and_Time(path_real_prices=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Datasets\Real_prices.csv'
-,path_forecasts_folder=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Folder_Parallel_Run_5'
 ,name_dataframe='ModelBenchmark_dataframe',path_datasets_folder=r'C:\Users\jille\Documents\2e_Master_2022_2023\Masterthesis\Code\Code_2023_10_06\Belgian_DAM_forecasting_paper-main\Cleaned_code\Datasets\Dataframes_one_ex_var'
 ,begin_test_date='01/01/2020', end_test_date='31/12/2022',recalibration_window=1,calibration_window_set={56,84,112,714,721,728},
 regular=1,weighed=1)
