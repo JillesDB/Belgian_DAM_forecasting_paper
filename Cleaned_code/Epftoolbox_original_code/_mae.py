@@ -7,7 +7,7 @@ Function that implements the mean absolute error (MAE) metric.
 # License: AGPL-3.0 License
 
 import numpy as np
-from epftoolbox.evaluation._ancillary_functions import _process_inputs_for_metrics
+from Epftoolbox_original_code.evaluation._ancillary_functions import _process_inputs_for_metrics
 
 
 def MAE(p_real, p_pred):
@@ -36,13 +36,13 @@ def MAE(p_real, p_pred):
     Example
     --------
 
-    >>> from epftoolbox.evaluation import MAE
-    >>> from epftoolbox.data import read_data
+    >>> from Epftoolbox_original_code.evaluation import MAE
+    >>> from Epftoolbox_original_code.data import read_data
     >>> import pandas as pd
     >>> 
     >>> # Download available forecast of the NP market available in the library repository
     >>> # These forecasts accompany the original paper
-    >>> forecast = pd.read_csv('https://raw.githubusercontent.com/jeslago/epftoolbox/master/' + 
+    >>> forecast = pd.read_csv('https://raw.githubusercontent.com/jeslago/Epftoolbox_original_code/master/' + 
     ...                       'forecasts/Forecasts_NP_DNN_LEAR_ensembles.csv', index_col=0)
 
     >>> 
