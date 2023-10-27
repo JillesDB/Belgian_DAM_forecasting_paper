@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CsvFileAttributes">
+    <option name="attributeMap">
+      <map>
+        <entry key="\Folder_Parallel_Run_1\LEAR_forecast_dataframe_Full_Dataset_CW112_RW1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\Folder_Parallel_Run_1\LEAR_forecast_dataframe_Full_Dataset_CW56_RW1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\Folder_Parallel_Run_1\LEAR_forecast_dataframe_Full_Dataset_CW714_RW1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\Folder_Parallel_Run_1\LEAR_forecast_dataframe_Full_Dataset_CW721_RW1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\Folder_Parallel_Run_1\LEAR_forecast_dataframe_Full_Dataset_CW728_RW1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\Folder_Parallel_Run_1\LEAR_forecast_dataframe_Full_Dataset_CW84_RW1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
