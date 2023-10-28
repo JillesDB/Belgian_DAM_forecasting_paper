@@ -8,8 +8,8 @@ Function that implements the relative mean absolute error (rMAE) metric.
 
 import numpy as np
 import pandas as pd
-from Epftoolbox_original_code.evaluation._ancillary_functions import _process_inputs_for_metrics, naive_forecast, _transform_input_prices_for_naive_forecast
-from Epftoolbox_original_code.evaluation import MAE
+from epftoolbox.evaluation._ancillary_functions import _process_inputs_for_metrics, naive_forecast, _transform_input_prices_for_naive_forecast
+from epftoolbox.evaluation import MAE
 
 
 def rMAE(p_real, p_pred, m=None, freq='1H',jlago = 0):
@@ -64,8 +64,8 @@ def rMAE(p_real, p_pred, m=None, freq='1H',jlago = 0):
 
     Example
     -------
-    >>> from Epftoolbox_original_code.evaluation import rMAE
-    >>> from Epftoolbox_original_code.data import read_data
+    >>> from epftoolbox.evaluation import rMAE
+    >>> from epftoolbox.data import read_data
     >>> import pandas as pd
     >>> 
     >>> # Download available forecast of the NP market available in the library repository
