@@ -367,8 +367,8 @@ class LEAR(object):
             return Yp, [time_rec_lambda,time_rec_coeff,time_pred]
 
 
-def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../../epftoolbox/models', 'datasets'),
-                                  path_recalibration_folder=os.path.join('../../../../epftoolbox/models',
+def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../../Epftoolbox_original_code/models', 'datasets'),
+                                  path_recalibration_folder=os.path.join('../../../../Epftoolbox_original_code/models',
                                                                          'experimental_files'),
                                   dataset='PJM', years_test=2, calibration_window=364 * 3,
                                   begin_test_date=None, end_test_date=None, recalibration_window=1, return_coef_hour=0,

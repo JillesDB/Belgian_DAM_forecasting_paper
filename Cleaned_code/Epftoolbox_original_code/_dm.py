@@ -22,7 +22,7 @@ def DM(p_real, p_pred_1, p_pred_2, norm=1, version='univariate'):
     errors ``p_pred_1`` vs the alternative hypothesis H1 of the errors of ``p_pred_2`` being smaller (better).
     Hence, rejecting H0 means that the forecast ``p_pred_2`` is significantly more accurate
     that forecast ``p_pred_1``. (Note that this is an informal definition. For a formal one we refer to 
-    `here <https://epftoolbox.readthedocs.io/en/latest/modules/cite.html>`_)
+    `here <https://Epftoolbox_original_code.readthedocs.io/en/latest/modules/cite.html>`_)
 
     Two versions of the test are possible:
 
@@ -31,7 +31,7 @@ def DM(p_real, p_pred_1, p_pred_2, norm=1, version='univariate'):
 
         2. A multivariate with the test performed jointly for all hours using the multivariate 
         loss differential series (see this 
-        `article <https://epftoolbox.readthedocs.io/en/latest/modules/cite.html>`_ for details.
+        `article <https://Epftoolbox_original_code.readthedocs.io/en/latest/modules/cite.html>`_ for details.
 
     
     Parameters
@@ -48,7 +48,7 @@ def DM(p_real, p_pred_1, p_pred_2, norm=1, version='univariate'):
         be 1 (for the norm-1) or 2 (for the norm-2).
     version : str, optional
         Version of the test as defined in 
-        `here <https://epftoolbox.readthedocs.io/en/latest/modules/cite.html>`_. It can have two values:
+        `here <https://Epftoolbox_original_code.readthedocs.io/en/latest/modules/cite.html>`_. It can have two values:
         ``'univariate`` or ``'multivariate``      
     Returns
     -------
@@ -58,15 +58,15 @@ def DM(p_real, p_pred_1, p_pred_2, norm=1, version='univariate'):
 
     Example
     -------
-    >>> from epftoolbox.evaluation import DM
-    >>> from epftoolbox.data import read_data
+    >>> from Epftoolbox_original_code.evaluation import DM
+    >>> from Epftoolbox_original_code.data import read_data
     >>> import pandas as pd
     >>> 
     >>> # Generating forecasts of multiple models
     >>> 
     >>> # Download available forecast of the NP market available in the library repository
     >>> # These forecasts accompany the original paper
-    >>> forecasts = pd.read_csv('https://raw.githubusercontent.com/jeslago/epftoolbox/master/' + 
+    >>> forecasts = pd.read_csv('https://raw.githubusercontent.com/jeslago/Epftoolbox_original_code/master/' + 
     ...                       'forecasts/Forecasts_NP_DNN_LEAR_ensembles.csv', index_col=0)
     >>> 
     >>> # Deleting the real price field as it the actual real price and not a forecast
@@ -181,15 +181,15 @@ def plot_multivariate_DM_test(real_price, forecasts, norm=1, title='DM test', sa
     
     Example
     -------
-    >>> from epftoolbox.evaluation import DM, plot_multivariate_DM_test
-    >>> from epftoolbox.data import read_data
+    >>> from Epftoolbox_original_code.evaluation import DM, plot_multivariate_DM_test
+    >>> from Epftoolbox_original_code.data import read_data
     >>> import pandas as pd
     >>> 
     >>> # Generating forecasts of multiple models
     >>> 
     >>> # Download available forecast of the NP market available in the library repository
     >>> # These forecasts accompany the original paper
-    >>> forecasts = pd.read_csv('https://raw.githubusercontent.com/jeslago/epftoolbox/master/' + 
+    >>> forecasts = pd.read_csv('https://raw.githubusercontent.com/jeslago/Epftoolbox_original_code/master/' + 
     ...                       'forecasts/Forecasts_NP_DNN_LEAR_ensembles.csv', index_col=0)
     >>> 
     >>> # Deleting the real price field as it the actual real price and not a forecast
