@@ -1,5 +1,5 @@
-from epftoolbox.evaluation import rMAE
-from epftoolbox.data import read_data
+from Epftoolbox_original_code.evaluation import rMAE
+from Epftoolbox_original_code.data import read_data
 import pandas as pd
 
 # Download available forecast of the NP market available in the library repository

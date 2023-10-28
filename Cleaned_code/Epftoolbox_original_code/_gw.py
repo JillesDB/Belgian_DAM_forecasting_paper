@@ -19,7 +19,7 @@ def GW(p_real, p_pred_1, p_pred_2, norm=1, version='univariate'):
     that the CPA of ``p_pred_2`` is higher. Rejecting H0 means that the forecasts
     ``p_pred_2`` are significantly more accurate than forecasts ``p_pred_1``.
     (Note that this is an informal definition. For a formal one we refer 
-    `here <https://epftoolbox.readthedocs.io/en/latest/modules/cite.html>`_)
+    `here <https://Epftoolbox_original_code.readthedocs.io/en/latest/modules/cite.html>`_)
 
 
     Parameters
@@ -36,7 +36,7 @@ def GW(p_real, p_pred_1, p_pred_2, norm=1, version='univariate'):
         be 1 (for the norm-1) or 2 (for the norm-2).
     version : str, optional
         Version of the test as defined in
-        `here <https://epftoolbox.readthedocs.io/en/latest/modules/cite.html>`_. It can have two values:
+        `here <https://Epftoolbox_original_code.readthedocs.io/en/latest/modules/cite.html>`_. It can have two values:
         ``'univariate'`` or ``'multivariate'``
     Returns
     -------
@@ -46,15 +46,15 @@ def GW(p_real, p_pred_1, p_pred_2, norm=1, version='univariate'):
 
     Example
     -------
-    >>> from epftoolbox.evaluation import GW
-    >>> from epftoolbox.data import read_data
+    >>> from Epftoolbox_original_code.evaluation import GW
+    >>> from Epftoolbox_original_code.data import read_data
     >>> import pandas as pd
     >>> 
     >>> # Generating forecasts of multiple models
     >>> 
     >>> # Download available forecast of the NP market available in the library repository
     >>> # These forecasts accompany the original paper
-    >>> forecasts = pd.read_csv('https://raw.githubusercontent.com/jeslago/epftoolbox/master/' + 
+    >>> forecasts = pd.read_csv('https://raw.githubusercontent.com/jeslago/Epftoolbox_original_code/master/' + 
     ...                       'forecasts/Forecasts_NP_DNN_LEAR_ensembles.csv', index_col=0)
     >>> 
     >>> # Deleting the real price field as it the actual real price and not a forecast
@@ -195,15 +195,15 @@ def plot_multivariate_GW_test(real_price, forecasts, norm=1, title='GW test', sa
     
     Example
     -------
-    >>> from epftoolbox.evaluation import GW, plot_multivariate_GW_test
-    >>> from epftoolbox.data import read_data
+    >>> from Epftoolbox_original_code.evaluation import GW, plot_multivariate_GW_test
+    >>> from Epftoolbox_original_code.data import read_data
     >>> import pandas as pd
     >>> 
     >>> # Generating forecasts of multiple models
     >>> 
     >>> # Download available forecast of the NP market available in the library repository
     >>> # These forecasts accompany the original paper
-    >>> forecasts = pd.read_csv('https://raw.githubusercontent.com/jeslago/epftoolbox/master/' + 
+    >>> forecasts = pd.read_csv('https://raw.githubusercontent.com/jeslago/Epftoolbox_original_code/master/' + 
     ...                       'forecasts/Forecasts_NP_DNN_LEAR_ensembles.csv', index_col=0)
     >>> 
     >>> # Deleting the real price field as it the actual real price and not a forecast
