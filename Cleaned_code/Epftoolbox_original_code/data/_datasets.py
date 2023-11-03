@@ -63,7 +63,7 @@ def read_data(path, dataset='PJM', years_test=2, begin_test_date=None, end_test_
 
     Example
     --------
-    >>> from epftoolbox.data import read_data
+    >>> from Epftoolbox_original_code.data import read_data
     >>> df_train, df_test = read_data(path='.', dataset='PJM', begin_test_date='01-01-2016',
     ...                               end_test_date='01-02-2016')
     Test datasets: 2016-01-01 00:00:00 - 2016-02-01 23:00:00
