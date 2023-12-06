@@ -76,7 +76,7 @@ class LEAR(object):
         # # Rescaling all inputs except dummies (7 last features)
         [Xtrain_no_dummies], self.scalerX = scaling([Xtrain[:, :-7]], 'Invariant')
         Xtrain[:, :-7] = Xtrain_no_dummies
-        # Xtrain[:,:], self.scalerX =scaling([Xtrain[:, :-7]], 'Norm1')
+        # Xtrain[:,:], self.scalerX =scaling([Xtrain[:, :-7]], 'Std')
         self.models = {}
         self.coef = {}
         for h in range(24):
