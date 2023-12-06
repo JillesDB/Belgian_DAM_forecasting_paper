@@ -6,6 +6,7 @@ from pathlib import Path
 import time
 
 cwd = Path.cwd()
+path_datasets_folder = str(cwd) + '\Datasets'
 def create_single_forecast(name_dataframe,path_forecast_folder=None,calibration_window=56,begin_test_date=None,end_test_date=None,recalibration_window=1):
     """ 1) The Dataframes:
      The dataset folder should contain the dataset. The folder should be specified in the Dataframes folder
@@ -15,9 +16,9 @@ def create_single_forecast(name_dataframe,path_forecast_folder=None,calibration_
 
      The end date:  Parameter to determine the end date for test period. It should be a string with format YYYY-mm-dd
     """
-    path_datasets_folder = str(cwd) + '\Datasets'
+
     if path_forecast_folder is None:
-        path_forecast_folder = "r\'" + str(cwd)+'\Forecasts' + "\'"
+        path_forecast_folder = str(cwd) + '\Forecasts'
     _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder,path_recalibration_folder=path_forecast_folder, dataset=str(name_dataframe), \
                                         calibration_window=calibration_window, begin_test_date=str(begin_test_date) + ' 00:00',
                                         end_test_date=str(end_test_date) + ' 23:00', recalibration_window=recalibration_window)

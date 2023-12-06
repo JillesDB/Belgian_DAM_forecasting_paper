@@ -109,4 +109,4 @@ def generate_aggregated_coefficients(name_dataframe,calibration_window=56,
     dataframe_coefficient.to_csv(os.path.join(path_forecasts_folder, name_csv_file),mode='w')
 
 generate_raw_coefficients(name_dataframe='Full_Dataset', calibration_window=56, begin_plot_date='2020-01-01',
-                      end_plot_date='2020-02-01')
+                      end_plot_date='2022-12-31')
