@@ -5,17 +5,18 @@ import datetime
 import altair as alt
 import os
 from pathlib import Path
-
+import altair_viewer
 alt.data_transformers.disable_max_rows()
 
 import numpy as np
 
-real_prices = pd.read_csv(r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
+path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
+path_forecasts_folder = str(Path.cwd().parent) + '\Dataframes_with_Coefficients'
+real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
 real_prices = real_prices.set_index('Date')
 def generate_coef_analysis_dict(name_dataframe,begin_plot_date,end_plot_date,cal_window,hour=0):
+
     h =hour
-    path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
-    path_forecasts_folder = str(Path.cwd().parent) + '\Dataframes_with_Coefficients'
     # dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
     # hourly_index = pd.date_range(start=begin_plot_date, end=end_plot_date + ' 23:00', freq='H')
     # data = {'datetime': hourly_index, 'Solar': [0] * len(hourly_index), 'Wind': [0] * len(hourly_index),
@@ -23,6 +24,7 @@ def generate_coef_analysis_dict(name_dataframe,begin_plot_date,end_plot_date,cal
     #         'FR_Generation_Load': [0] * len(hourly_index), 'Swiss_Prices': [0] * len(hourly_index),
     #         'BE_Load_Weather': [0] * len(hourly_index)}
     dict_coefficient_values_per_family = []
+    print(name_dataframe)
     for count, date in enumerate(pd.date_range(start=begin_plot_date, end=end_plot_date, freq='D')):
         models, effect_matrix, xtest, Yp = (
             _lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
@@ -142,7 +144,7 @@ def generate_coef_analysis_dict(name_dataframe,begin_plot_date,end_plot_date,cal
     # return coef_dict_day,day,real_prices_day,std_prices
 
 
-def create_stacked_area_chart(hour,file_path= None,name_dataframe=None,cal_window=56,begin_plot_date=None,end_plot_date=None):
+def create_stacked_area_chart(begin_plot_date,end_plot_date,name_csv='None',name_dataframe='None',hour=None,cal_window=56):
     """
 
     Parameters
@@ -156,21 +158,34 @@ def create_stacked_area_chart(hour,file_path= None,name_dataframe=None,cal_windo
     -------
 
     """
-    if file_path is None:
+    file_path = os.path.join(path_forecasts_folder,str(name_csv)+'.csv')
+    print(file_path)
+    if not os.path.exists(file_path):
         dataframe_coefficients = generate_coef_analysis_dict(name_dataframe=name_dataframe,begin_plot_date=begin_plot_date,
                                     end_plot_date=end_plot_date,cal_window=cal_window,hour=hour)
         dataframe  = alt.Data(values = dataframe_coefficients)
-
     else:
-        dataframe = pd.read_csv(file_path)
-        dataframe['datetime'] = pd.to_datetime(dataframe['datetime'])
-        dataframe = dataframe.set_index('datetime')
-        dataframe = dataframe.drop(columns=['Unnamed: 0'],axis=1)
-        dataframe = dataframe[dataframe.index.hour == hour]
-        #dataframe.index = dataframe.index.date
-        dataframe.index.name = 'Date'
-        dataframe = dataframe.reset_index(drop = False)
-        dataframe = dataframe.melt(id_vars='Date', var_name='Var_Family', value_name='value')
+        if hour != None:
+            print(file_path)
+            dataframe = pd.read_csv(str(file_path))
+            day_selection = (dataframe['datetime'] >= begin_plot_date) & (dataframe['datetime'] <= end_plot_date+' 23:00:00')
+            dataframe = dataframe.loc[day_selection]
+            dataframe['datetime'] = pd.to_datetime(dataframe['datetime'])
+            dataframe = dataframe.set_index('datetime')
+            dataframe = dataframe.drop(columns=['Unnamed: 0'],axis=1)
+            dataframe = dataframe[dataframe.index.hour == hour]
+            #dataframe.index = dataframe.index.date
+            dataframe.index.name = 'Date'
+            dataframe = dataframe.reset_index(drop = False)
+            dataframe = dataframe.melt(id_vars='Date', var_name='Var_Family', value_name='value')
+        else:
+            dataframe = pd.read_csv(file_path)
+            day_selection = (dataframe['datetime'] >= begin_plot_date) & (dataframe['datetime'] <= end_plot_date)  # + datetime.timedelta(hours=23))
+            dataframe = dataframe.loc[day_selection]
+            dataframe['Date'] = pd.to_datetime(dataframe['datetime'])
+            dataframe = dataframe.drop(columns=['Unnamed: 0','datetime'],axis=1)
+            dataframe = dataframe.melt(id_vars='Date', var_name='Var_Family', value_name='value')
+
         print(dataframe)
     #dataframe_coefficients_long_form = dataframe.melt(id_vars=["datetime"],
     #                                                            value_vars=["Solar", "Wind", "Lagged_Prices",
@@ -180,7 +195,7 @@ def create_stacked_area_chart(hour,file_path= None,name_dataframe=None,cal_windo
     #data1  = alt.Data(values = dataframe)
     #print(data1)
     bar_chart = alt.Chart(dataframe).mark_area().encode(
-        x=alt.X('Date:T', axis=alt.Axis(title='Date',ticks = True,format="%b %Y")),
+        x=alt.X('Date:T'),# axis=alt.Axis(title='Date',ticks = True,format="%b %Y")),
         y=alt.Y('value:Q', axis=alt.Axis(title='Absolute Value Coefficients')),
         color=alt.Color('Var_Family:N',scale=alt.Scale(range=["#c7ead4", "#b4e0aa", "#c5e08b", "#e5e079", "#f6d264", "#f5b34c", "#f4913e"]))#["#c4e9d0", "#b0de9f", "#d0e181", "#e5e079", "#f6e072", "#f6c053", "#f3993e"]
     )
@@ -191,4 +206,8 @@ def create_stacked_area_chart(hour,file_path= None,name_dataframe=None,cal_windo
     # display the chart
     chart.show()
 dates_nr = range(728)
-create_stacked_area_chart(hour=18,file_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv')
+#create_stacked_area_chart(hour=18,file_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv')
+create_stacked_area_chart(name_csv = 'Data_clock_plot_dataframe_Example_dataframe_CW728',
+                          begin_plot_date='2020-01-01',end_plot_date='2021-01-01')
+create_stacked_area_chart(name_csv = 'Data_clock_plot_dataframe_Example_dataframe_CW728',hour=12,
+                      begin_plot_date='2020-01-01',end_plot_date='2020-02-01')
