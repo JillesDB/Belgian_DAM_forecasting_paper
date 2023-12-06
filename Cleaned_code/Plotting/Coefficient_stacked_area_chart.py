@@ -206,7 +206,7 @@ def create_stacked_area_chart(begin_plot_date,end_plot_date,name_csv='None',name
     # display the chart
     chart.show()
 dates_nr = range(728)
-#create_stacked_area_chart(hour=18,file_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW728.csv')
+#create_stacked_area_chart(hour=18,file_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Aggregated_Coefficients_Full_Dataset_CW728.csv')
 create_stacked_area_chart(name_csv = 'Data_clock_plot_dataframe_Example_dataframe_CW728',
                           begin_plot_date='2020-01-01',end_plot_date='2021-01-01')
 create_stacked_area_chart(name_csv = 'Data_clock_plot_dataframe_Example_dataframe_CW728',hour=12,
