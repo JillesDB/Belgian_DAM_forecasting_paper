@@ -9,7 +9,7 @@ from pathlib import Path
 
 path_datasets_folder = str(Path.cwd()) + '\Datasets'
 path_forecasts_folder = str(Path.cwd()) + '\Dataframes_with_Coefficients'
-path_real_prices = str(path_datasets_folder)+'Real_prices.csv'
+path_real_prices = str(path_datasets_folder)+'\Real_prices.csv'
 
 def forward_feature_selection(name_dataframe,begin_test_date,end_test_date, n,calibration_window=56):
     """
@@ -55,5 +55,5 @@ def forward_feature_selection(name_dataframe,begin_test_date,end_test_date, n,ca
     return feature_set
 
 f = forward_feature_selection(name_dataframe='Full_Dataset.csv',
-                              begin_test_date='2020-01-01',end_test_date='2022-12-31',calibration_window=728,n=13)
+                              begin_test_date='2020-01-01',end_test_date='2022-12-31',calibration_window=56,n=13)
 print(f)
