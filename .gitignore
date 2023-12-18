@@ -5,6 +5,7 @@ Cleaned_code/Parallel_Run_4.py
 Cleaned_code/Parallel_Run_5.py
 Cleaned_code/Parallel_Run_6.py
 *.csv
+*.gitkeep
 Cleaned_code/Folder_Parallel_Run_5/Weighted_Ensemble_LEAR_forecast_dataframe_ModelWind_dataframe_RW1.csv
 Cleaned_code/Folder_Parallel_Run_5/Weighted_Ensemble_LEAR_forecast_dataframe_ModelSolar_dataframe_RW1.csv
 Cleaned_code/Folder_Parallel_Run_5/Weighted_Ensemble_LEAR_forecast_dataframe_ModelFR_dataframe_RW1.csv
