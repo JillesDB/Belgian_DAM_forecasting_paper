@@ -90,17 +90,17 @@ Generate_Evaluate_and_Time_Forecast.Predict_Evaluate_and_Time(path_real_prices=r
 regular=1,weighed=1)
 Generate_Evaluate_and_Time_Forecast.Predict_Evaluate_and_Time(path_real_prices=real_prices_path
 ,path_forecasts_folder=forecasts_folder
-,name_dataframe='Model5Vars_dataframe',path_datasets_folder=os.path.join(datasets_path, 'Dataframes_several_vars')
+,name_dataframe='Model5Vars#2_dataframe',path_datasets_folder=os.path.join(datasets_path, 'Dataframes_several_vars')
 ,begin_test_date='2020-01-01', end_test_date='2022-12-31',recalibration_window=1,calibration_window_set={56,84,112,714,721,728},
 regular=1,weighed=1)
 Generate_Evaluate_and_Time_Forecast.Predict_Evaluate_and_Time(path_real_prices=real_prices_path
 ,path_forecasts_folder=forecasts_folder
-,name_dataframe='Model8Vars_dataframe',path_datasets_folder=os.path.join(datasets_path, 'Dataframes_several_vars')
+,name_dataframe='Model8Vars#2_dataframe',path_datasets_folder=os.path.join(datasets_path, 'Dataframes_several_vars')
 ,begin_test_date='2020-01-01', end_test_date='2022-12-31',recalibration_window=1,calibration_window_set={56,84,112,714,721,728},
 regular=1,weighed=1)
 Generate_Evaluate_and_Time_Forecast.Predict_Evaluate_and_Time(path_real_prices=real_prices_path
 ,path_forecasts_folder=forecasts_folder
-,name_dataframe='Model10Vars_dataframe',path_datasets_folder=os.path.join(datasets_path, 'Dataframes_several_vars')
+,name_dataframe='Model10Vars#2_dataframe',path_datasets_folder=os.path.join(datasets_path, 'Dataframes_several_vars')
 ,begin_test_date='2020-01-01', end_test_date='2022-12-31',recalibration_window=1,calibration_window_set={56,84,112,714,721,728},
 regular=1,weighed=1)
 

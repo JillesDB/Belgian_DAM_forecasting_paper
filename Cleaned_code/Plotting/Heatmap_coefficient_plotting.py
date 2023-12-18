@@ -42,32 +42,38 @@ def plot_coefficient_matrix_heatmap(name_csv,calibration_window,start=None,end=N
     nb_hours = datetime.datetime.strptime(to_hour, '%H:%M') - datetime.datetime.strptime(from_hour, '%H:%M')
     print(nb_hours)
     nb_row = int((nb_hours.seconds+3600)/3600*7*4) #15*7 hours per week => four week average
-    # Normalize the data
-    filtered_dataframe = filtered_dataframe.rolling(nb_row).mean()[nb_row-1:]
+
+    # If we want to normalize the data?
+    # filtered_dataframe = filtered_dataframe.rolling(nb_row).mean()[nb_row-1:]
+    abs_dataframe = abs(filtered_dataframe)
+    sum_row = abs_dataframe.sum(axis=0)
+    print(sum_row.nlargest(12))
     # filtered_dataframe_night = filtered_dataframe_night.rolling(nb_row).mean()[nb_row-1:]
     plt.figure(figsize=(12,8))
-    ax = sns.heatmap(filtered_dataframe,yticklabels=nb_row*2,cmap='RdYlGn',vmin=-0.10,vmax = 0.10)# yticklabels = 8760/nb_row
+    ax = sns.heatmap(filtered_dataframe,yticklabels=nb_row*2,cmap='seismic',vmin=-0.8,vmax = 0.8,center=0)#seismic#RdYlGn#Spectral #coolwarm yticklabels = 8760/nb_row
     ax.set_title('Coefficients for CW' + str(calibration_window)+' from '+str(filtered_dataframe.index[0]) + ' until ' +str(filtered_dataframe.index[-1]))
     plt.tight_layout()
     plt.show()
 
 
-# df = pd.read_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW112.csv')
-# print(df)
-# df = df.drop(columns=['Unnamed: 0','Unnamed: 0.1'])
-# #df = df.reset_index().rename(columns={df.index.name:'Unnamed: 0'})
-# # # df.index.name = 'datetime'
-# df.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW112.csv',mode = 'w')
-# #
-#
-# df = pd.read_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW84.csv')
-# df = df.drop(columns=['index'])
-# df.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW84.csv',mode = 'w')
-# df = pd.read_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW112.csv')
-# df = df.drop(columns=['index'])
-# df.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW112.csv',mode = 'w')
-
-plot_coefficient_matrix_heatmap(name_csv='Raw_coefficientsFull_Dataset_CW56.csv',calibration_window=56,
+plot_coefficient_matrix_heatmap(name_csv='Raw_coefficientsFull_Dataset_CW728.csv',calibration_window=728,
                                start='2020-01-01 00:00:00',end='2022-12-31 23:00:00'
                                 # ,from_hour='11:30',to_hour='12:30'
                                 )
+
+# df = pd.read_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW56.csv')
+# df2 = pd.read_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW728.csv')
+# print(df,df2)
+#
+# # df = df.drop(columns=['Unnamed: 0','Unnamed: 0.1'])
+# #df = df.reset_index().rename(columns={df.index.name:'Unnamed: 0'})
+# # df2 = df2.set_index('Unnamed: 0')
+# df2 = df2.rename(columns={"Unnamed: 0": "datetime"})
+# # df2.index.name = 'datetime'
+# print(df,df2)
+# df2.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW728.csv')
+
+# df = pd.read_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW112.csv')
+# df = df.drop(columns=['index'])
+# df.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Dataframes_with_Coefficients\Raw_coefficientsFull_Dataset_CW112.csv',mode = 'w')
+#
