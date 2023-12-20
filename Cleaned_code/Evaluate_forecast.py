@@ -7,6 +7,8 @@ from pathlib import Path
 
 cwd = Path.cwd()
 path_forecasts_folder = str(cwd) + '\Forecasts'
+path_datasets_folder = str(Path.cwd()) + '\Datasets'
+path_real_prices = str(path_datasets_folder)+'\Real_prices.csv'
 
 
 def calc_mae(path_forecast,path_real_prices,begin_test_date=None,end_test_date=None):

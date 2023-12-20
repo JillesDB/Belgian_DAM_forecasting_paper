@@ -8,6 +8,9 @@ import Evaluate_forecast,Forecasting,Timing_Forecasts
 from pathlib import Path
 
 cwd = Path.cwd()
+path_datasets_folder = str(cwd) + '\Datasets'
+path_real_prices = str(path_datasets_folder)+'\Real_prices.csv'
+
 
 def Predict_Evaluate_and_Time(path_real_prices,name_dataframe,path_datasets_folder,
                               begin_test_date,end_test_date,path_forecasts_folder=None,
@@ -72,7 +75,9 @@ def Predict_Evaluate_and_Time(path_real_prices,name_dataframe,path_datasets_fold
 # df = df.drop(columns=['Unnamed: 0'])
 # df.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Datasets\Dataframes_several_vars\Model10Vars#2_dataframe.csv')
 #
+# df = pd.read_csv(os.path.join(path_datasets_folder,'Full_Dataset.csv'))
 # print(df)
+# df = df.set_index('Date')
 # five_vars = df.drop(columns=[ 'BE Solar', 'DE Solar', 'Brent Oil', 'Carbon Price', 'TTF NG Price', 'FR Generation', 'FR Load'])
 # five_vars.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Datasets\Dataframes_several_vars\Model5Vars#2_dataframe.csv')
 # eight_vars = df.drop(columns=['BE Solar', 'DE Solar', 'FR Generation', 'FR Load'])
