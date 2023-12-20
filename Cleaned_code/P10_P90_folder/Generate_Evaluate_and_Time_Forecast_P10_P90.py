@@ -49,12 +49,12 @@ def Predict_Evaluate_and_Time(path_real_prices,dataset_train,dataset_test,path_d
             Dataframe_evaluation_and_timing.loc['CW ' + str(cw),'Time'] = dict_timing['Time CW ' + str(cw)]
     ensemble_time = sum(Dataframe_evaluation_and_timing['Time'])
     if regular:
-        ensemble_file = 'Ensemble_LEAR_train' + str(dataset_train) +'_test_dataframe_' + str(dataset_test) + \
+        ensemble_file = 'Ensemble_LEAR_train_' + str(dataset_train) +'_test_dataframe_' + str(dataset_test) + \
                          '_RW' + str(recalibration_window) + '.csv'
         path_ensemble_file = os.path.join(path_forecasts_folder, ensemble_file)
         Dataframe_evaluation_and_timing.loc['Ensemble',:] = [Evaluate_forecast.calc_mae(path_ensemble_file,path_real_prices=path_real_prices),Evaluate_forecast.calc_rmae(path_ensemble_file,path_real_prices=path_real_prices),ensemble_time]
     if weighed:
-        weighed_ensemble_file = 'Weighted_Ensemble_LEAR_train' + str(dataset_train) +'_test_dataframe_' + str(dataset_test) + \
+        weighed_ensemble_file = 'Weighted_Ensemble_LEAR_train_' + str(dataset_train) +'_test_dataframe_' + str(dataset_test) + \
                                         '_RW' + str(recalibration_window) + '.csv'
         path_weighed_ensemble_file = os.path.join(path_forecasts_folder, weighed_ensemble_file)
         Dataframe_evaluation_and_timing.loc['Weighed Ensemble',:] = [Evaluate_forecast.calc_mae(path_weighed_ensemble_file,path_real_prices=path_real_prices),Evaluate_forecast.calc_rmae(path_weighed_ensemble_file,path_real_prices=path_real_prices),ensemble_time]
