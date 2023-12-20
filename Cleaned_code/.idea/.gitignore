@@ -1,3 +1,18 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+*.csv
+/Cleaned_code/P10_P90_folder/Datasets/Datasets_Zeynep
+/Cleaned_code/
+/Cleaned_code/Folder_Parallel_Run_1/
+/Cleaned_code/Folder_Parallel_Run_2/
+/Cleaned_code/Folder_Parallel_Run_3/
+/Cleaned_code/Folder_Parallel_Run_4/
+/Cleaned_code/Folder_Parallel_Run_5/
+/Cleaned_code/Monetary_Value_Example/
+/Cleaned_code/Joris_plotting_original_code/
+/Cleaned_code/Parallel_Run_1.py
+/Cleaned_code/Parallel_Run_2.py
+/Cleaned_code/Parallel_Run_3.py
+/Cleaned_code/Parallel_Run_4.py
+/Cleaned_code/Parallel_Run_5.py
