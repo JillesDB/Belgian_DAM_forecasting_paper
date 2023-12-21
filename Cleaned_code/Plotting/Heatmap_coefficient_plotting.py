@@ -8,10 +8,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import date,time
 sns.set(rc={'figure.figsize':(6,36)})
-path_datasets_folder = str(Path.cwd().parent) + '\Dataframes_with_coefficients'
-path_forecasts_folder = str(Path.cwd().parent) + '\Forecasts_for_plots'
+path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
+path_datasets_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
 path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
-
 def plot_coefficient_matrix_heatmap(name_csv,calibration_window,begin_time=None,end_time=None):
     """
 

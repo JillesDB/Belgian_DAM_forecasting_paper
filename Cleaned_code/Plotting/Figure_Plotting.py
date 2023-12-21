@@ -9,7 +9,7 @@ from sklearn.metrics import r2_score
 from pathlib import Path
 plt.rcParams.update({'font.size': 14})
 cwd = Path.cwd()
-path_forecasts_folder = os.path.join(cwd,'\Forecasts')
+path_forecasts_folder = os.path.join(cwd,'Forecasts')
 
 
 def scatter_plot(file_forecast,path_real_prices,name_forecast = None,path_forecasts_folder=path_forecasts_folder1):

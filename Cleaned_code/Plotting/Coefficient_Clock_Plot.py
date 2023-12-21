@@ -11,8 +11,8 @@ import plotly
 from datetime import date,time
 
 cwd = Path.cwd()
-path_datasets_folder = os.path.join(cwd,'\Datasets')
-path_coeff_folder = os.path.join(cwd,'\Dataframes_with_Coefficients')
+path_datasets_folder = os.path.join(cwd,'Datasets')
+path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
 
 
 

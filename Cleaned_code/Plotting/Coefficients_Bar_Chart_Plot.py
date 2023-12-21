@@ -9,8 +9,8 @@ alt.data_transformers.disable_max_rows()
 import numpy as np
 
 cwd = Path.cwd()
-path_datasets_folder = os.path.join(cwd,'\Datasets')
-path_coeff_folder = os.path.join(cwd,'\Dataframes_with_Coefficients')
+path_datasets_folder = os.path.join(cwd,'Datasets')
+path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
 path_real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
 
 def create_coef_analysis_dict(day_to_plot,calibration_window,name_dataframe):

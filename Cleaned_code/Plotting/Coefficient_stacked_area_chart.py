@@ -11,8 +11,8 @@ alt.data_transformers.disable_max_rows()
 import numpy as np
 
 cwd = Path.cwd()
-path_datasets_folder = os.path.join(cwd,'\Datasets')
-path_coeff_folder = os.path.join(cwd,'\Dataframes_with_Coefficients')
+path_datasets_folder = os.path.join(cwd,'Datasets')
+path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
 real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
 real_prices = real_prices.set_index('Date')
 def generate_coef_analysis_dict(name_dataframe,begin_plot_date,end_plot_date,cal_window,hour=0):
