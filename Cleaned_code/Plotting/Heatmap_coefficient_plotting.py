@@ -48,5 +48,5 @@ def plot_coefficient_matrix_heatmap(name_csv,calibration_window,begin_time=None,
     plt.tight_layout()
     plt.show()
 
-plot_coefficient_matrix_heatmap(name_csv='Aggregated_Coefficients_Full_Dataset_CW56.csv',calibration_window=56,
-                                begin_time='2020-01-01 00:00:00',end_time='2021-01-01 23:00:00')
+# plot_coefficient_matrix_heatmap(name_csv='Aggregated_Coefficients_Full_Dataset_CW56.csv',calibration_window=56,
+#                                 begin_time='2020-01-01 00:00:00',end_time='2021-01-01 23:00:00')

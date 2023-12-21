@@ -10,8 +10,9 @@ import clock_plot.clock as cp
 import plotly
 from datetime import date,time
 
-path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
-path_forecasts_folder = str(Path.cwd().parent) + '\Dataframes_with_Coefficients'
+cwd = Path.cwd()
+path_datasets_folder = os.path.join(cwd,'\Datasets')
+path_coeff_folder = os.path.join(cwd,'\Dataframes_with_Coefficients')
 
 
 
@@ -58,11 +59,3 @@ def generate_clock_plot_from_existing_file(path_file,calibration_window,group_cu
 
 
 
-# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Dataframes_with_Coefficients\Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv',
-#                                        group_curves_by='month')
-# generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Dataframes_with_Coefficients\Aggregated_Coefficients_Full_Dataset_CW728.csv',
-#                              calibration_window=728,group_curves_by='variable family',filter={'year': 2020})
-# generate_clock_plot_from_existing_file(path_file=r'/Dataframes_with_Coefficients\Aggregated_Coefficients_Full_Dataset_CW56.csv',
-#                                        calibration_window=56, group_curves_by='season', covariate_family='Fossil_Fuels', filter={'year': 2022})
-#generate_clock_plot_from_existing_file(path_file=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Dataframes_with_Coefficients\Aggregated_Coefficients_Full_Dataset_CW728.csv',
- #                            calibration_window=728,group_curves_by='variable family',filter={'year': 2022})

@@ -7,9 +7,10 @@ import Evaluate_forecast,Forecasting,Timing_Forecasts
 from pathlib import Path
 
 
-path_datasets_folder = str(Path.cwd()) + '\Datasets'
-path_forecasts_folder = str(Path.cwd()) + '\Dataframes_with_Coefficients'
-path_real_prices = str(path_datasets_folder)+'Real_prices.csv'
+cwd = Path.cwd()
+path_datasets_folder = os.path.join(cwd,'\Datasets')
+path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
+
 
 def forward_feature_selection(name_dataframe,begin_test_date,end_test_date, n,calibration_window=56):
     """
