@@ -93,18 +93,3 @@ def joint_and_conditional_plot(path_real_prices,file_forecast,name_forecast=None
     plot_J_2 = eval.plot_conditional(x_label='Actual Prices [€/MWh]',y_label='Forecast {} [€/MWh] '.format(str(name_forecast),intervals=11))
     plt.show()
 
-
-line_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-          name_forecast='Real Prices 2020 - 2022',file_forecast='Real_prices',path_forecasts_folder = r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets')
-# scatter_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#           name_forecast='Full Dataset RW1',file_forecast='Weighted_Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1')
-# scatter_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#           name_forecast='Full Dataset No Recal.',file_forecast='Weighted_Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1100')
-# joris_plots(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#           name_forecast='Full Dataset RW1',file_forecast='Weighted_Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1')
-# joris_plots(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#           name_forecast='Full Dataset No Recal.',file_forecast='Weighted_Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1100')
-# line_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#           name_forecast='CW56RW84',file_forecast='LEAR_forecast_dataframe_Example_dataframe_CW56_RW84')
-# line_plot(path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#           name_forecast='CW56RW168',file_forecast='LEAR_forecast_dataframe_Example_dataframe_CW56_RW168')
