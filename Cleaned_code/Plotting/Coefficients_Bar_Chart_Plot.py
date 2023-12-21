@@ -98,5 +98,5 @@ def create_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,c
     # display the chart
     chart.show()
 
-# create_coefficient_bar_chart(name_dataframe='Example_dataframe', path_real_prices=path_real_prices,
-#                          day_to_plot='2020-01-01',calibration_window=56,file_path=os.path.join(path_coeff_folder,'Data_clock_plot_dataframe_Example_dataframe_CW56.csv'))
+#create_coefficient_bar_chart(name_dataframe='Example_dataframe', path_real_prices=path_real_prices,
+ #                        day_to_plot='2020-01-01',calibration_window=56,file_path=os.path.join(path_coeff_folder,'Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv'))
