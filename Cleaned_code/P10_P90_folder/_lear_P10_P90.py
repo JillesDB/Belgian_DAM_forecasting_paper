@@ -386,7 +386,7 @@ def evaluate_lear_in_test_dataset(path_datasets_folder=os.path.join('../../../..
                                   begin_test_date=begin_test_date, end_test_date=end_test_date)
 
     # Defining unique name to save the forecast
-    forecast_file_name = 'LEAR_train_dataframe_' + str(dataset_train) +'test_dataframe_' + str(dataset_test) + \
+    forecast_file_name = 'LEAR_train_dataframe_' + str(dataset_train) +'_test_dataframe_' + str(dataset_test) + \
                          '_CW' + str(calibration_window) + '_RW' + str(recalibration_window) + '.csv'
 
     forecast_file_path = os.path.join(path_recalibration_folder, forecast_file_name)

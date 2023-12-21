@@ -67,7 +67,7 @@ def create_ensemble_forecast(dataset_train,dataset_test,path_real_prices,path_da
         path_forecasts_folder = str(cwd)+'\Forecasts'
     timing = dict()
     for cw in calibration_window_set:
-        name_csv_file = 'LEAR_train_dataframe_' + str(dataset_train) +'test_dataframe_' + str(dataset_test) + \
+        name_csv_file = 'LEAR_train_dataframe_' + str(dataset_train) +'_test_dataframe_' + str(dataset_test) + \
                          '_CW' + str(cw) + '_RW' + str(recalibration_window) + '.csv'
         path_file = os.path.join(path_forecasts_folder,name_csv_file)
         'check whether forecast exists already'
@@ -103,7 +103,7 @@ def create_ensemble_forecast(dataset_train,dataset_test,path_real_prices,path_da
         list_forecasts.append(a)
     print(timing)
     if weighed == 1:
-        Weighted_Ensemble_file_name = 'Weighted_Ensemble_LEAR_train' + str(dataset_train) +'test_dataframe_' + str(dataset_test) + \
+        Weighted_Ensemble_file_name = 'Weighted_Ensemble_LEAR_train' + str(dataset_train) +'_test_dataframe_' + str(dataset_test) + \
                                         '_RW' + str(recalibration_window) + '.csv'
 
         Weighted_Ensemble_file_path = os.path.join(path_forecasts_folder,Weighted_Ensemble_file_name)
@@ -129,7 +129,7 @@ def create_ensemble_forecast(dataset_train,dataset_test,path_real_prices,path_da
                     Weighted_Ensemble.iloc[i, :] += b
         Weighted_Ensemble.to_csv(Weighted_Ensemble_file_path)
     if regular ==1:
-        Ensemble_file_name = 'Ensemble_LEAR_train' + str(dataset_train) +'test_dataframe_' + str(dataset_test) + \
+        Ensemble_file_name = 'Ensemble_LEAR_train' + str(dataset_train) +'_test_dataframe_' + str(dataset_test) + \
                          '_RW' + str(recalibration_window) + '.csv'
 
         Ensemble_file_path = os.path.join(path_forecasts_folder,Ensemble_file_name)
