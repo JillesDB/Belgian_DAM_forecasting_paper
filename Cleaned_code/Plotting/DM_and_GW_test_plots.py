@@ -8,7 +8,7 @@ cwd = Path.cwd()
 path_datasets_folder = os.path.join(cwd,'Datasets')
 path_forecasts_folder = os.path.join(cwd,'Forecasts')
 path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
-path_real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
+path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
 def DM_plot_forecasts_in_folder(forecasts_folder_path,path_real_prices,plot_title='DM test'):
     """
 
