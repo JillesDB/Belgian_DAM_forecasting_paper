@@ -68,7 +68,7 @@ def line_plot(file_forecast,path_real_prices,name_forecast= None,path_forecasts_
     plot1.legend(['Actual Prices - 2020 - 2022','Forecast {}'.format(str(name_forecast))])
     plt.show()
 
-def joris_plots(path_real_prices,file_forecast,name_forecast=None,path_forecasts_folder=path_forecasts_folder1):
+def joint_and_conditional_plot(path_real_prices,file_forecast,name_forecast=None,path_forecasts_folder=path_forecasts_folder1):
     """
 
     Parameters
