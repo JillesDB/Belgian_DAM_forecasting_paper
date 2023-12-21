@@ -7,7 +7,7 @@ from pathlib import Path
 
 cwd = Path.cwd()
 path_forecasts_folder = os.path.join(cwd,'Forecasts')
-path_datasets_folder = os.path.join(cwd,'\Datasets')
+path_datasets_folder = os.path.join(cwd,'Datasets')
 path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
 
 
