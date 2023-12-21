@@ -44,7 +44,7 @@ def forward_feature_selection(name_dataframe,begin_test_date,end_test_date, n,ca
                 print(test_set)
                 ffs_dataframe = dataframe[test_set].copy()
                 ffs_dataframe.to_csv(os.path.join(path_datasets_folder,'ffs_dataframe.csv'))
-                path_forecasts_folder = str(Path.cwd())+'\Forecasts_for_plots'
+                path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
                 name_file = str(('LEAR_forecast_dataframe_ffs_dataframe_CW'+str(calibration_window)+'_RW1.csv'))
                 Forecasting.create_single_forecast(name_dataframe='ffs_dataframe',path_forecast_folder=path_forecasts_folder,
                                                    calibration_window=calibration_window,begin_test_date=begin_test_date,end_test_date=end_test_date)
