@@ -10,7 +10,8 @@ from pathlib import Path
 plt.rcParams.update({'font.size': 14})
 cwd = Path.cwd()
 path_forecasts_folder = os.path.join(cwd,'Forecasts')
-
+path_datasets_folder = os.path.join(cwd,'Datasets')
+path_real_prices= os.path_join(path_datasets_folder,'Real_prices.csv')
 
 def scatter_plot(file_forecast,path_real_prices,name_forecast = None,path_forecasts_folder=path_forecasts_folder1):
     """
