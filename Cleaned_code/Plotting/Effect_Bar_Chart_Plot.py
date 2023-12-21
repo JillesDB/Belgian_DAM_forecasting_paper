@@ -7,7 +7,7 @@ import altair as alt
 import numpy as np
 import matplotlib.pyplot as plt
 
-cwd = Path.cwd()
+cwd = Path.cwd().parent
 alt.data_transformers.disable_max_rows()
 path_coefficients_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
 path_datasets_folder = os.path.join(cwd,'Datasets')
