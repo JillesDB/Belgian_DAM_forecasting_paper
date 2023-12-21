@@ -12,10 +12,11 @@ cwd = Path.cwd().parent
 path_datasets_folder = os.path.join(cwd,'Datasets')
 path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
 path_real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
+path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
+
 
 def create_coef_analysis_dict(day_to_plot,calibration_window,name_dataframe):
 
-    path_forecasts_folder = str(Path.cwd().parent) + '\Forecasts_for_plots'
     dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
     models, effect_matrix, xtest, Yp = (_lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                                  path_recalibration_folder= path_forecasts_folder, dataset=str(name_dataframe), \
