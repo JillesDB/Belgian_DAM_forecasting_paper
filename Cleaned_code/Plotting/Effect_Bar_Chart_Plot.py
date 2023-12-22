@@ -186,5 +186,5 @@ def create_effect_bar_chart(file_path_predictions,file_path_effects, day_to_plot
     chart = alt.layer(bar_chart,real_and_forecasted_prices_chart,text).properties(title='Prices and Predictions - CW ' + str(calibration_window)+'- for ' + str(day_to_plot)).resolve_scale(color='independent')
     chart.show()
 
-# generate_contributions_effect_plot(name_dataframe='Full_Dataset',calibration_window = 728, begin_plot_date='2020-01-01',end_plot_date='2022-12-31')
+# generate_contributions_effect_plot(name_dataframe='Full_Dataset',calibration_window = 728, begin_plot_date='2020-01-01',end_plot_date='2020-01-02')
 

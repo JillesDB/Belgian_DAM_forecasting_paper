@@ -13,7 +13,6 @@ path_coeff_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients
 path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
 path_forecasts_folder = os.path.join(Path_cleaned_code,'Forecasts_for_plots')
 path_real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
-path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
 
 def create_coef_analysis_dict(day_to_plot,calibration_window,name_dataframe):
 
@@ -98,5 +97,5 @@ def create_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,c
     # display the chart
     chart.show()
 
-#create_coefficient_bar_chart(name_dataframe='Example_dataframe', path_real_prices=path_real_prices,
- #                        day_to_plot='2020-01-01',calibration_window=56,file_path=os.path.join(path_coeff_folder,'Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv'))
+# create_coefficient_bar_chart(name_dataframe='Example_dataframe', path_real_prices=path_real_prices,
+#                         day_to_plot='2020-01-01',calibration_window=56,file_path=os.path.join(path_coeff_folder,'Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv'))
