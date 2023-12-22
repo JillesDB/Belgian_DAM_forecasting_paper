@@ -8,13 +8,12 @@ alt.data_transformers.disable_max_rows()
 
 import numpy as np
 
-cwd = Path.cwd().parent
-path_datasets_folder = os.path.join(cwd,'Datasets')
-path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
-path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
+Path_cleaned_code = Path.cwd().parent
+path_coeff_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients')
+path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
+path_forecasts_folder = os.path.join(Path_cleaned_code,'Forecasts_for_plots')
 path_real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
 path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
-
 
 def create_coef_analysis_dict(day_to_plot,calibration_window,name_dataframe):
 
