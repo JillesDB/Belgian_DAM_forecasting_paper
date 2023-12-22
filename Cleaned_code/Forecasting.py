@@ -176,6 +176,6 @@ def create_ensemble_one_day(list_forecasts,real_prices,day,weighted=0,regular=0)
 
                     Ensemble_Forecast.loc[day] += (list_forecasts[forecast_number].iloc[i, 1:]/ len(list_forecasts))
 
-# create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=path_real_prices,
+# create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=path_real_prices, path_datasets_folder=path_datasets_folder,
 #                          begin_test_date='2021-01-01 00:00', end_test_date='2021-01-31 23:00', weighed=1)
-
+#

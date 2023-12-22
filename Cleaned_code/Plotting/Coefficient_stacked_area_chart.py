@@ -12,10 +12,25 @@ import numpy as np
 Path_cleaned_code = Path.cwd().parent
 path_coefficients_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients')
 path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
-real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
+path_forecasts_folder = os.path.join(Path_cleaned_code,'Forecasts_for_plots')
+real_prices = pd.read_csv(os.path.join(Path_cleaned_code,'Datasets\Real_prices.csv'))
 real_prices = real_prices.set_index('Date')
 
 def generate_coef_analysis_dict(name_dataframe,begin_plot_date,end_plot_date,cal_window,hour=0):
+    """
+
+    Parameters
+    ----------
+    name_dataframe
+    begin_plot_date
+    end_plot_date
+    cal_window
+    hour
+
+    Returns
+    -------
+
+    """
 
     h =hour
     # dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
@@ -75,21 +90,23 @@ def generate_coef_analysis_dict(name_dataframe,begin_plot_date,end_plot_date,cal
 
 
 
-def create_stacked_area_chart(begin_plot_date,end_plot_date,name_csv='None',name_dataframe='None',hour=None,cal_window=56):
+def create_stacked_area_chart(begin_plot_date,end_plot_date,name_csv,name_dataframe,hour=None,cal_window=56):
     """
 
     Parameters
     ----------
+    begin_plot_date
+    end_plot_date
+    name_csv: the csv file with the coefficients
+    name_dataframe: the name of the dataframe, for use in the title.
     hour
-    file_path
-    cal_window: should only be given if no file path given
-    dates
+    cal_window
 
     Returns
     -------
 
     """
-    file_path = os.path.join(path_forecasts_folder,str(name_csv)+'.csv')
+    file_path = os.path.join(path_coefficients_folder,str(name_csv)+'.csv')
     print(file_path)
     if not os.path.exists(file_path):
         dataframe_coefficients = generate_coef_analysis_dict(name_dataframe=name_dataframe,begin_plot_date=begin_plot_date,
@@ -139,7 +156,7 @@ def create_stacked_area_chart(begin_plot_date,end_plot_date,name_csv='None',name
 dates_nr = range(728)
 
 
-# create_stacked_area_chart(name_csv = 'Data_clock_plot_dataframe_Example_dataframe_CW728',
+# create_stacked_area_chart(name_csv = 'Aggregated_Coefficients_Full_Dataset_CW56',name_dataframe='Data_clock_plot_dataframe_Example_dataframe_CW728',
 #                           begin_plot_date='2020-01-01',end_plot_date='2021-01-01')
-# create_stacked_area_chart(name_csv = 'Data_clock_plot_dataframe_Example_dataframe_CW728',hour=12,
+# create_stacked_area_chart(name_csv = 'Aggregated_Coefficients_Full_Dataset_CW728',name_dataframe='Data_clock_plot_dataframe_Example_dataframe_CW728',hour=12,
 #                       begin_plot_date='2020-01-01',end_plot_date='2020-02-01')

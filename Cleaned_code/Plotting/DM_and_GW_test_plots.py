@@ -3,9 +3,9 @@ from Epftoolbox_original_code.evaluation import _gw,_ancillary_functions,_dm
 import pandas as pd
 from pathlib import Path
 import os
+
 plt.rcParams.update({'font.size': 12})
 Path_cleaned_code = Path.cwd().parent
-alt.data_transformers.disable_max_rows()
 path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
 path_coeff_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients')
 path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
@@ -91,4 +91,4 @@ def GW_plot_forecasts_in_folder(forecasts_folder_path,path_real_prices, plot_tit
     _gw.plot_multivariate_GW_test(real_price=real_prices_selection['Prices'], forecasts=dataframe_all_forecasts,
                               title=plot_title)
 
-# DM_plot_forecasts_in_folder(forecasts_folder_path=path_forecasts_folder,path_real_prices=path_real_prices, plot_title='DM test')
+# DM_plot_forecasts_in_folder(forecasts_folder_path=os.path.join(Path_cleaned_code,'Forecasts\DM_and_GW'),path_real_prices=path_real_prices, plot_title='DM test')

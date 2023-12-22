@@ -5,13 +5,11 @@ import pandas as pd
 import os
 from Epftoolbox_original_code.evaluation import MAE
 from pathlib import Path
-import clock_plot
-import clock_plot.clock as cp
-import plotly
-from datetime import date,time
 
-path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
-path_forecasts_folder = str(Path.cwd().parent) + '\Dataframes_with_Coefficients'
+Path_cleaned_code = Path.cwd().parent
+path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
+path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
+path_forecasts_folder = os.path.join(Path_cleaned_code,'Forecasts_for_plots')
 
 def generate_raw_coefficients(name_dataframe,calibration_window=56,
                                      begin_plot_date=None,end_plot_date=None):
@@ -109,5 +107,5 @@ def generate_aggregated_coefficients(name_dataframe,calibration_window=56,
                     '_CW' + str(calibration_window)  + '.csv'
     dataframe_coefficient.to_csv(os.path.join(path_forecasts_folder, name_csv_file),mode='w')
 
-#generate_raw_coefficients(name_dataframe='Full_Dataset', calibration_window=56, begin_plot_date='2020-01-01',
-#                      end_plot_date='2022-12-31')
+generate_raw_coefficients(name_dataframe='Full_Dataset', calibration_window=56, begin_plot_date='2020-01-01',
+                     end_plot_date='2022-12-31')

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import scipy.stats as stat
 
-from Plotting_Joris import formulas as fm
+from Additional_plots import formulas as fm
 
 from matplotlib import pyplot as plt
 import matplotlib

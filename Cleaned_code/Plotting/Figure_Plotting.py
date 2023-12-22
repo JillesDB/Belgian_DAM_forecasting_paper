@@ -8,13 +8,14 @@ import pandas as pd
 import os
 from sklearn.metrics import r2_score
 from pathlib import Path
+
 plt.rcParams.update({'font.size': 14})
 Path_cleaned_code = Path.cwd().parent
 path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
-path_forecasts_folder = os.path.join(Path_cleaned_code,'Forecasts_for_plots')
-path_real_prices= os.path_join(path_datasets_folder,'Real_prices.csv')
+path_forecasts_folder = os.path.join(Path_cleaned_code,'Forecasts')
+path_real_prices= os.path.join(path_datasets_folder,'Real_prices.csv')
 
-def scatter_plot(file_forecast,path_real_prices,name_forecast = None,path_forecasts_folder=path_forecasts_folder):
+def scatter_plot(file_forecast,path_real_prices=path_real_prices,name_forecast = None,path_forecasts_folder=path_forecasts_folder):
     """
 
     Parameters
@@ -42,7 +43,7 @@ def scatter_plot(file_forecast,path_real_prices,name_forecast = None,path_foreca
     plt.legend(title="Scatter plot: Actual Prices and Forecast {}".format(str(name_forecast)))
     plt.show()
 
-def line_plot(file_forecast,path_real_prices,name_forecast= None,path_forecasts_folder=path_forecasts_folder):
+def line_plot(file_forecast,path_real_prices=path_real_prices,name_forecast= None,path_forecasts_folder=path_forecasts_folder):
     """
 
     Parameters
@@ -69,7 +70,7 @@ def line_plot(file_forecast,path_real_prices,name_forecast= None,path_forecasts_
     plot1.legend(['Actual Prices - 2020 - 2022','Forecast {}'.format(str(name_forecast))])
     plt.show()
 
-def joint_and_conditional_plot(path_real_prices,file_forecast,name_forecast=None,path_forecasts_folder=path_forecasts_folder):
+def joint_and_conditional_plot(file_forecast,path_real_prices=path_real_prices,name_forecast=None,path_forecasts_folder=path_forecasts_folder):
     """
 
     Parameters
@@ -94,3 +95,6 @@ def joint_and_conditional_plot(path_real_prices,file_forecast,name_forecast=None
     plot_J_2 = eval.plot_conditional(x_label='Actual Prices [€/MWh]',y_label='Forecast {} [€/MWh] '.format(str(name_forecast),intervals=11))
     plt.show()
 
+# joint_and_conditional_plot(file_forecast='Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1')
+# line_plot(file_forecast='Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1')
+# scatter_plot(file_forecast='Ensemble_LEAR_forecast_dataframe_Example_dataframe_RW1')

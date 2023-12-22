@@ -12,10 +12,6 @@ from datetime import date,time
 
 Path_cleaned_code = Path.cwd().parent
 path_coefficients_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients')
-path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
-
-
-
 
 def generate_clock_plot_from_existing_file(path_file,calibration_window,group_curves_by = 'date',
                                            covariate_family = 'Lagged_Prices',filter={}):
@@ -58,5 +54,5 @@ def generate_clock_plot_from_existing_file(path_file,calibration_window,group_cu
                            # title='{} Coefficients for CW {}\n from {} until {}'.format(str(covariate_family),calibration_window,str(begin_date),str(end_date)))
     fig.show()
 
-
+generate_clock_plot_from_existing_file(path_file=os.path.join(path_coefficients_folder,'Aggregated_Coefficients_Full_Dataset_CW56.csv'),calibration_window=56)
 
