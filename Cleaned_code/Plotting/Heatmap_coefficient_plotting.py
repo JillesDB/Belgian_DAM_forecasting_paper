@@ -8,8 +8,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import date,time
 sns.set(rc={'figure.figsize':(6,36)})
-path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
-path_datasets_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
+Path_cleaned_code = Path.cwd().parent
+path_forecasts_folder = os.path.join(Path_cleaned_code,'Forecasts_for_plots')
+path_datasets_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients')
 path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
 
 
