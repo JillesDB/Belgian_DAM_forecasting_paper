@@ -11,6 +11,7 @@ import numpy as np
 cwd = Path.cwd().parent
 path_datasets_folder = os.path.join(cwd,'Datasets')
 path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
+path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
 path_real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
 path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
 
