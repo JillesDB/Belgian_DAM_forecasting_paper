@@ -9,7 +9,7 @@ import altair_viewer
 alt.data_transformers.disable_max_rows()
 
 import numpy as np
-cwd = Path.cwd()
+cwd = Path.cwd().parent
 path_datasets_folder = os.path.join(cwd,'Datasets')
 path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
 
