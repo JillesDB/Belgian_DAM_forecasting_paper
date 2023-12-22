@@ -10,9 +10,9 @@ import clock_plot.clock as cp
 import plotly
 from datetime import date,time
 
-cwd = Path.cwd().parent
-path_datasets_folder = os.path.join(cwd,'Datasets')
-path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
+Path_cleaned_code = Path.cwd().parent
+path_coefficients_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients')
+path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
 
 
 
