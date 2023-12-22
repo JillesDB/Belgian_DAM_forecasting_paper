@@ -8,12 +8,15 @@ alt.data_transformers.disable_max_rows()
 
 import numpy as np
 
-real_prices = pd.read_csv(r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
-real_prices = real_prices.set_index('Date')
+cwd = Path.cwd().parent
+path_datasets_folder = os.path.join(cwd,'Datasets')
+path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
+path_real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
+path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
+
 
 def create_coef_analysis_dict(day_to_plot,calibration_window,name_dataframe):
-    path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
-    path_forecasts_folder = str(Path.cwd().parent) + '\Forecasts_for_plots'
+
     dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
     models, effect_matrix, xtest, Yp = (_lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                                  path_recalibration_folder= path_forecasts_folder, dataset=str(name_dataframe), \
@@ -95,5 +98,5 @@ def create_coefficient_bar_chart(name_dataframe, path_real_prices, day_to_plot,c
     # display the chart
     chart.show()
 
-create_coefficient_bar_chart(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-                         day_to_plot='2020-01-01',calibration_window=56,file_path=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Coefficients_for_clock_plots\Data_clock_plot_dataframe_Example_dataframe_CW56.csv')
+#create_coefficient_bar_chart(name_dataframe='Example_dataframe', path_real_prices=path_real_prices,
+ #                        day_to_plot='2020-01-01',calibration_window=56,file_path=os.path.join(path_coeff_folder,'Data_clock_plot_Lagged_Prices_dataframe_Example_dataframe_CW56.csv'))
