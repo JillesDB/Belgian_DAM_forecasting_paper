@@ -15,7 +15,6 @@ path_forecasts_folder = os.path.join(Path_cleaned_code,'Forecasts_for_plots')
 path_real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
 path_forecasts_folder = os.path.join(cwd,'Forecasts_for_plots')
 
-
 def create_coef_analysis_dict(day_to_plot,calibration_window,name_dataframe):
 
     dataframe = pd.read_csv(os.path.join(path_datasets_folder,str(name_dataframe+'.csv')))
