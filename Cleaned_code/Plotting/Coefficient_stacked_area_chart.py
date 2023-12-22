@@ -9,12 +9,12 @@ import altair_viewer
 alt.data_transformers.disable_max_rows()
 
 import numpy as np
-cwd = Path.cwd().parent
-path_datasets_folder = os.path.join(cwd,'Datasets')
-path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
-
+Path_cleaned_code = Path.cwd().parent
+path_coefficients_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients')
+path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
 real_prices = pd.read_csv(os.path.join(path_datasets_folder,'Real_prices.csv'))
 real_prices = real_prices.set_index('Date')
+
 def generate_coef_analysis_dict(name_dataframe,begin_plot_date,end_plot_date,cal_window,hour=0):
 
     h =hour
