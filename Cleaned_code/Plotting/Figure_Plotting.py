@@ -14,7 +14,7 @@ path_forecasts_folder = os.path.join(cwd,'Forecasts')
 path_datasets_folder = os.path.join(cwd,'Datasets')
 path_real_prices= os.path_join(path_datasets_folder,'Real_prices.csv')
 
-def scatter_plot(file_forecast,path_real_prices,name_forecast = None,path_forecasts_folder=path_forecasts_folder1):
+def scatter_plot(file_forecast,path_real_prices,name_forecast = None,path_forecasts_folder=path_forecasts_folder):
     """
 
     Parameters
@@ -42,7 +42,7 @@ def scatter_plot(file_forecast,path_real_prices,name_forecast = None,path_foreca
     plt.legend(title="Scatter plot: Actual Prices and Forecast {}".format(str(name_forecast)))
     plt.show()
 
-def line_plot(file_forecast,path_real_prices,name_forecast= None,path_forecasts_folder=path_forecasts_folder1):
+def line_plot(file_forecast,path_real_prices,name_forecast= None,path_forecasts_folder=path_forecasts_folder):
     """
 
     Parameters
@@ -69,7 +69,7 @@ def line_plot(file_forecast,path_real_prices,name_forecast= None,path_forecasts_
     plot1.legend(['Actual Prices - 2020 - 2022','Forecast {}'.format(str(name_forecast))])
     plt.show()
 
-def joint_and_conditional_plot(path_real_prices,file_forecast,name_forecast=None,path_forecasts_folder=path_forecasts_folder1):
+def joint_and_conditional_plot(path_real_prices,file_forecast,name_forecast=None,path_forecasts_folder=path_forecasts_folder):
     """
 
     Parameters
