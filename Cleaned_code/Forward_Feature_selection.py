@@ -15,8 +15,6 @@ path_forecasts_folder = os.path.join(cwd,'Forecasts')
 def forward_feature_selection(name_dataframe,begin_test_date,end_test_date, n,calibration_window=56):
     """
 
-def forward_feature_selection(name_dataframe,begin_test_date,end_test_date, n,calibration_window=56):
-    """
     Parameters
     ----------
     name_dataframe
