@@ -7,13 +7,15 @@ import altair as alt
 import numpy as np
 import matplotlib.pyplot as plt
 
-cwd = Path.cwd().parent
+Path_cleaned_code = Path.cwd().parent
 alt.data_transformers.disable_max_rows()
-path_coefficients_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
-path_datasets_folder = os.path.join(cwd,'Datasets')
+path_coefficients_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients')
+path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
 path_real_prices = (os.path.join(path_datasets_folder,'Real_prices.csv'))
 real_prices = pd.read_csv(path_real_prices)
 real_prices = real_prices.set_index('Date')
+
+
 def generate_coef_analysis_dict(day_nr,cw,hour=0):
     h =hour
     day = datetime.date(2021,1,1) +  datetime.timedelta(day_nr)
@@ -142,6 +144,7 @@ def generate_contributions_effect_plot(name_dataframe,calibration_window, begin_
             effects_dataframe.iloc[count * 24 + h,8] = zero_predictions[0,h]
 
     effects_dataframe.to_csv(path_effects_dataframe, mode='w')
+
 
 
 

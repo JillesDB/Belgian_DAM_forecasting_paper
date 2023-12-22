@@ -16,6 +16,7 @@ path_coeff_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
 
 
 
+
 def generate_clock_plot_from_existing_file(path_file,calibration_window,group_curves_by = 'date',
                                            covariate_family = 'Lagged_Prices',filter={}):
     """

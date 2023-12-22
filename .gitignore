@@ -4,10 +4,9 @@ Cleaned_code/Parallel_Run_3.py
 Cleaned_code/Parallel_Run_4.py
 Cleaned_code/Parallel_Run_5.py
 Cleaned_code/Parallel_Run_6.py
-Cleaned_code/Monetary_Value_Example/
-Cleaned_code/P10_P90_folder/
-Cleaned_code/Example_Dataframe/
-Cleaned_code/Additional_plots/
+*.csv
+*.gitkeep
+*.gitignore
 Cleaned_code/Folder_Parallel_Run_5/Weighted_Ensemble_LEAR_forecast_dataframe_ModelWind_dataframe_RW1.csv
 Cleaned_code/Folder_Parallel_Run_5/Weighted_Ensemble_LEAR_forecast_dataframe_ModelSolar_dataframe_RW1.csv
 Cleaned_code/Folder_Parallel_Run_5/Weighted_Ensemble_LEAR_forecast_dataframe_ModelFR_dataframe_RW1.csv

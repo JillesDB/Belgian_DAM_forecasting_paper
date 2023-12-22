@@ -61,3 +61,14 @@ def Predict_Evaluate_and_Time(path_real_prices,name_dataframe,path_datasets_fold
 
     print('Results for dataframe {}  from {} until {}, RW {}'.format(name_dataframe,begin_test_date, end_test_date,recalibration_window))
     print(Dataframe_evaluation_and_timing)
+
+
+df = pd.read_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Datasets\Full_Dataset.csv')
+print(df)
+five_vars = df.drop(columns=[ 'BE Solar', 'DE Solar', 'Brent Oil', 'Carbon Price', 'TTF NG Price', 'FR Generation', 'FR Load'])
+five_vars.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Datasets\Dataframes_several_vars\Model5Vars#2_dataframe.csv')
+eight_vars = df.drop(columns=['BE Solar', 'DE Solar', 'FR Generation', 'FR Load'])
+eight_vars.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Datasets\Dataframes_several_vars\Model8Vars#2_dataframe.csv')
+ten_vars = df.drop(columns=['FR Generation', 'FR Load'])
+ten_vars.to_csv(r'C:\Users\jdeblauw\Documents\GitHub\Belgian_DAM_forecasting_paper\Cleaned_code\Datasets\Dataframes_several_vars\Model10Vars#2_dataframe.csv')
+print(five_vars,eight_vars,ten_vars)

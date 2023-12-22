@@ -32,6 +32,7 @@ def generate_raw_coefficients(name_dataframe,calibration_window=56,
     """
     hourly_index = pd.date_range(start=begin_plot_date, end=end_plot_date+' 23:00', freq='H')
     dataframe_coefficient = pd.DataFrame(index=pd.DatetimeIndex(hourly_index),columns=range(967))
+
     for count, date in enumerate(pd.date_range(start=begin_plot_date, end=end_plot_date, freq='D')):
         models, effect_matrix, xtest, Yp = (_lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                                  path_recalibration_folder= path_forecasts_folder, dataset=str(name_dataframe), \
@@ -108,5 +109,5 @@ def generate_aggregated_coefficients(name_dataframe,calibration_window=56,
                     '_CW' + str(calibration_window)  + '.csv'
     dataframe_coefficient.to_csv(os.path.join(path_forecasts_folder, name_csv_file),mode='w')
 
-generate_raw_coefficients(name_dataframe='Full_Dataset', calibration_window=56, begin_plot_date='2020-01-01',
-                      end_plot_date='2022-12-31')
+#generate_raw_coefficients(name_dataframe='Full_Dataset', calibration_window=56, begin_plot_date='2020-01-01',
+#                      end_plot_date='2022-12-31')
