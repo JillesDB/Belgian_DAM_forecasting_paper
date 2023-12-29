@@ -5,13 +5,11 @@ import pandas as pd
 import os
 from Epftoolbox_original_code.evaluation import MAE
 from pathlib import Path
-import clock_plot
-import clock_plot.clock as cp
-import plotly
-from datetime import date,time
 
-path_datasets_folder = str(Path.cwd().parent) + '\Datasets'
-path_forecasts_folder = str(Path.cwd().parent) + '\Dataframes_with_Coefficients'
+Path_cleaned_code = Path.cwd().parent
+path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
+path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
+path_forecasts_folder = os.path.join(Path_cleaned_code,'Forecasts_for_plots')
 
 def generate_raw_coefficients(name_dataframe,calibration_window=56,
                                      begin_plot_date=None,end_plot_date=None):
@@ -33,6 +31,7 @@ def generate_raw_coefficients(name_dataframe,calibration_window=56,
     hourly_index = pd.date_range(start=begin_plot_date, end=end_plot_date+' 23:00', freq='H')
     dataframe_coefficient = pd.DataFrame(index=pd.DatetimeIndex(hourly_index),columns=range(967))
     #dataframe_coefficient.index.name = 'datetime'
+
     for count, date in enumerate(pd.date_range(start=begin_plot_date, end=end_plot_date, freq='D')):
         models, effect_matrix, xtest, Yp = (_lear.evaluate_lear_in_test_dataset(path_datasets_folder=path_datasets_folder, \
                                                                  path_recalibration_folder= path_forecasts_folder, dataset=str(name_dataframe), \

@@ -6,6 +6,10 @@ from Epftoolbox_original_code.evaluation._mae import MAE
 from pathlib import Path
 
 cwd = Path.cwd()
+path_datasets_folder = os.path.join(cwd,'Datasets')
+path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
+path_forecasts_folder = os.path.join(cwd,'Dataframes_with_Coefficients')
+
 def time_forecast(name_dataframe,path_real_prices=None,path_datasets_folder = None,
                   path_forecasts_folder=None,begin_test_date=None,end_test_date=None,recalibration_window=1,
                              set_cws=frozenset([56,84,112,714,721,728]),years_test=0):

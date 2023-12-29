@@ -8,8 +8,10 @@ import Evaluate_forecast,Forecasting,Timing_Forecasts
 from pathlib import Path
 
 cwd = Path.cwd()
-path_datasets_folder = str(cwd) + '\Datasets'
-path_real_prices = str(path_datasets_folder)+'\Real_prices.csv'
+
+path_datasets_folder = os.path.join(cwd,'Datasets')
+path_forecasts_folder = os.path.join(cwd,'Forecasts')
+path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
 
 
 def Predict_Evaluate_and_Time(path_real_prices,name_dataframe,path_datasets_folder,

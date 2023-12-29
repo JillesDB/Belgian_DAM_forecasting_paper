@@ -5,13 +5,17 @@ from pathlib import Path
 import os
 import altair as alt
 import numpy as np
+import matplotlib.pyplot as plt
 
+Path_cleaned_code = Path.cwd().parent
 alt.data_transformers.disable_max_rows()
-
-import numpy as np
-Cleaned_code = Path.cwd().parent
-real_prices = pd.read_csv(os.path.join(str(Cleaned_code) + '\Datasets' , 'Real_prices.csv'))
+path_coefficients_folder = os.path.join(Path_cleaned_code,'Dataframes_with_Coefficients')
+path_datasets_folder = os.path.join(Path_cleaned_code,'Datasets')
+path_real_prices = (os.path.join(path_datasets_folder,'Real_prices.csv'))
+real_prices = pd.read_csv(path_real_prices)
 real_prices = real_prices.set_index('Date')
+
+
 def generate_coef_analysis_dict(day_nr,cw,hour=0):
     h =hour
     day = datetime.date(2021,1,1) +  datetime.timedelta(day_nr)
@@ -140,37 +144,6 @@ def generate_contributions_effect_plot(name_dataframe,calibration_window, begin_
             effects_dataframe.iloc[count * 24 + h,8] = zero_predictions[0,h]
 
     effects_dataframe.to_csv(path_effects_dataframe, mode='w')
-            # Effect_lagged_prices = abs(sum(product[:96]))
-            # Effect_BE_load = abs(sum(product[96:949:12]))
-            # Effect_BE_wind = abs(sum(product[97:950:12]))
-            # Effect_BE_solar = abs(sum(product[98:951:12]))
-            # Effect_CH_price = abs(sum(product[99:952:12]))
-            # Effect_FR_gen = abs(sum(product[100:953:12]))
-            # Effect_DE_wind = abs(sum(product[101:954:12]))
-            # Effect_DE_solar = abs(sum(product[102:955:12]))
-            # Effect_Oil = abs(sum(product[103:956:12]))
-            # Effect_Carbon = abs(sum(product[104:957:12]))
-            # Effect_Gas = abs(sum(product[105:958:12]))
-            # Effect_weather = abs(sum(product[106:959:12]))
-            # Effect_FR_load = abs(sum(product[107:960:12]))
-            # dataframe_coefficient.iloc[count*24+h,1:]   = [
-            # (Effect_BE_solar + Effect_DE_solar),#'Solar'
-            # Effect_BE_wind + Effect_DE_wind,#'Wind'
-            # Effect_lagged_prices,#'Lagged_Prices'
-            # Effect_Oil+Effect_Carbon+Effect_Gas,#Fossil_Fuels':
-            # Effect_FR_gen+Effect_FR_load,#'FR_Generation_Load'
-            # Effect_CH_price,#'Swiss_Prices'
-            # Effect_BE_load+Effect_weather] #'BE_Load_Weather':]            effects_dict_day.extend([
-    #             {"hour": h,
-    #              "Effect": "Zero Prediction",
-    #              "value": Effect_average},
-    #             {"hour": h,
-    #              "Effect": "Effect Lagged Prices",
-    #              "value": sum(product[:96])*scaler}])
-    #         for i in range(number_exog_vars):
-    #             effects_dict_day.extend([{"hour": h,
-    #                                    "Effect": str(dataframe.columns.tolist()[i+2]),
-    #                                    "value": sum(product[96+i:(number_coefficients-number_exog_vars+i+1):number_exog_vars])*scaler}])
 
 
 
@@ -213,8 +186,5 @@ def create_effect_bar_chart(file_path_predictions,file_path_effects, day_to_plot
     chart = alt.layer(bar_chart,real_and_forecasted_prices_chart,text).properties(title='Prices and Predictions - CW ' + str(calibration_window)+'- for ' + str(day_to_plot)).resolve_scale(color='independent')
     chart.show()
 
-generate_contributions_effect_plot(name_dataframe='Full_Dataset',calibration_window = 728, begin_plot_date='2020-01-01',end_plot_date='2022-12-31')
+# generate_contributions_effect_plot(name_dataframe='Full_Dataset',calibration_window = 728, begin_plot_date='2020-01-01',end_plot_date='2020-01-02')
 
-
-# create_effect_bar_chart(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#                          day_to_plot='2020-01-01',calibration_window=56)

@@ -4,10 +4,10 @@ import os
 from Epftoolbox_original_code.evaluation._mae import MAE
 from pathlib import Path
 import time
-
 cwd = Path.cwd()
-path_datasets_folder = str(cwd) + '\Datasets'
-path_real_prices = str(path_datasets_folder)+'\Real_prices.csv'
+
+path_datasets_folder = os.path.join(cwd,'Datasets')
+path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
 
 def create_single_forecast(name_dataframe,path_forecast_folder=None,calibration_window=56,begin_test_date=None,end_test_date=None,recalibration_window=1):
     """ 1) The Dataframes:
@@ -177,7 +177,6 @@ def create_ensemble_one_day(list_forecasts,real_prices,day,weighted=0,regular=0)
 
                     Ensemble_Forecast.loc[day] += (list_forecasts[forecast_number].iloc[i, 1:]/ len(list_forecasts))
 
-# create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
+# create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=path_real_prices, path_datasets_folder=path_datasets_folder,
 #                          begin_test_date='2021-01-01 00:00', end_test_date='2021-01-31 23:00', weighed=1)
-# create_ensemble_forecast(name_dataframe='Example_dataframe', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv',
-#                          begin_test_date='2021-01-01 00:00', end_test_date='2021-01-31 23:00')
+#

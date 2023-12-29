@@ -6,9 +6,11 @@ import os
 from pathlib import Path
 
 cwd = Path.cwd()
-path_forecasts_folder = str(cwd) + '\Forecasts'
-path_datasets_folder = str(Path.cwd()) + '\Datasets'
-path_real_prices = str(path_datasets_folder)+'\Real_prices.csv'
+
+path_forecasts_folder = os.path.join(cwd,'Forecasts')
+path_datasets_folder = os.path.join(cwd,'Datasets')
+path_real_prices = os.path.join(path_datasets_folder,'Real_prices.csv')
+
 
 
 def calc_mae(path_forecast,path_real_prices,begin_test_date=None,end_test_date=None):
@@ -67,5 +69,4 @@ def calc_rmae(path_forecast, path_real_prices, begin_test_date=None, end_test_da
         print('forecast path not found')
 
 
-#calc_rmae(file_forecast='Weighted_Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
-#calc_mae(file_forecast='LEAR_forecast_dataframe_Example_dataframe_CW56_RW28.csv', path_real_prices=r'C:\Users\r0763895\Documents\Masterthesis\Masterthesis\Code\epftoolbox\Cleaned_code\Datasets\Real_prices.csv')
+# calc_rmae(path_forecast=os.path.join(path_forecasts_folder,'Weighted_Ensemble_LEAR_forecast_datExample_dataframe_YT0_RW1'), path_real_prices=path_real_prices)
